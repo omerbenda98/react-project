@@ -1,5 +1,5 @@
 const ROUTES = {
-  HOME: "/",
+  HOME: "/react-project",
   ABOUT: "/about",
   FAKEHOME: "/home",
   REGISTER: "/register",

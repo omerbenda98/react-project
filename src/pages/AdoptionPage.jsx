@@ -13,7 +13,7 @@ const AdoptionPage = () => {
 
   useEffect(() => {
     axios
-      .get("/cards/cards")
+      .get("https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/cards/cards")
       .then(({ data }) => {
         setCardsArr(data);
       })

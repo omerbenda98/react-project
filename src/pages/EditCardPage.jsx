@@ -32,7 +32,7 @@ const EditCardPage = () => {
       try {
         const errors = validateEditCardParamsSchema({ id });
         if (errors) {
-          navigate("/");
+          navigate("/react-project");
           return;
         }
         const { data } = await axios.get("/cards/" + id);
