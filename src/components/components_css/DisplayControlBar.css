@@ -1,0 +1,22 @@
+.display-buttons button {
+  width: 33vw;
+  height: 3rem;
+  color: black;
+  background-color: rgba(238, 238, 238, 0.822);
+}
+
+.display-buttons {
+  width: 99vw;
+}
+@media (max-width: 600px) {
+  .slide-btn {
+    display: none;
+  }
+  .display-buttons button {
+    width: 49%;
+    margin-bottom: 2rem;
+    color: black;
+    margin-left: 0.2rem;
+    background-color: rgba(238, 238, 238, 0.555);
+  }
+}

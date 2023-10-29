@@ -1,0 +1,10 @@
+.footer-container {
+  background-image: url("../../../public/wave-haikei.png");
+}
+.costum-link {
+  display: flex;
+  color: white !important;
+  justify-content: space-evenly;
+  margin-bottom: 2;
+  text-decoration: none !important;
+}

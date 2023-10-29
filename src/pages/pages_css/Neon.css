@@ -1,0 +1,12 @@
+.neon {
+  color: #ffffff;
+  animation: glow 1000ms infinite alternate;
+}
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #1877f2, 0 0 20px #1459b3, 0 0 30px #179bff;
+  }
+  to {
+    text-shadow: 0 0 5px #1877f2, 0 0 10px #1459b3, 0 0 15px #179bff;
+  }
+}

@@ -1,0 +1,33 @@
+.mycards-container {
+  width: 100vw;
+  padding-bottom: 12rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mycards-grid-container {
+  display: grid;
+  gap: 14rem;
+  padding: 20px;
+}
+
+@media (min-width: 900px) {
+  .mycards-grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .mycards-grid-container {
+    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 599px) {
+  .mycards-grid-container {
+    grid-template-columns: 1fr;
+  }
+}

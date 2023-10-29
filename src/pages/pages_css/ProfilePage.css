@@ -1,0 +1,7 @@
+.user-img {
+  width: 10rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+  border-radius: 30%;
+  margin-bottom: 10px;
+  object-fit: contain;
+}

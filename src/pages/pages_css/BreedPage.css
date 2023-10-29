@@ -1,0 +1,58 @@
+.breed-container {
+  width: 60vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: rgba(57, 57, 57, 0.9);
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+  max-width: 800px;
+}
+.breed-big-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.breed-container img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.breed-title {
+  text-align: center;
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+.breed-description {
+  text-align: center;
+  color: #9a9a9a;
+}
+
+.breed-button {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.breed-button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+@media (max-width: 600px) {
+  .breed-container {
+    width: 100vw;
+  }
+}

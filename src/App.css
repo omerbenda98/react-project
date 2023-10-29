@@ -1,0 +1,123 @@
+#mainContainer main {
+  background-image: url("../public/foot-print.png");
+  width: 100%;
+}
+#mainContainer main .create-container {
+  background-color: rgba(57, 57, 57, 0.9);
+  width: 40vw;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+}
+#mainContainer main .create-big-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#mainContainer main .aboutUs-container {
+  background-color: rgba(57, 57, 57, 0.9);
+  width: 80vw;
+  margin-top: 1rem;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+}
+#mainContainer main .mycards-container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#mainContainer main .edit-container {
+  background-color: rgba(57, 57, 57, 0.9);
+  width: 40vw;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+}
+#mainContainer main .edit-big-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#mainContainer main .register-container {
+  background-color: rgba(57, 57, 57, 0.9);
+  width: 40vw;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+}
+#mainContainer main .register-big-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#mainContainer main .profile-container {
+  background-color: rgba(57, 57, 57, 0.9);
+  width: 40vw;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+}
+#mainContainer main .profile-big-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#mainContainer main .login-container {
+  background-color: rgba(57, 57, 57, 0.9);
+  width: 40vw;
+
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+}
+
+#mainContainer main .login-big-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  #mainContainer main .edit-container {
+    width: 100vw;
+  }
+  #mainContainer main .register-container {
+    width: 100vw;
+  }
+  #mainContainer main .login-container {
+    width: 100vw;
+  }
+  #mainContainer main .create-container {
+    width: 100vw;
+  }
+  #mainContainer main .profile-container {
+    width: 90vw;
+  }
+  #mainContainer main .mycards-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media (max-width: 900px) {
+  #mainContainer main .profile-container {
+    width: 80vw;
+  }
+  #mainContainer main .edit-container {
+    width: 80vw;
+  }
+  #mainContainer main .register-container {
+    width: 80vw;
+  }
+  #mainContainer main .login-container {
+    width: 80vw;
+  }
+  #mainContainer main .create-container {
+    width: 80vw;
+  }
+
+  #mainContainer main .mycards-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

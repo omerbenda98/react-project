@@ -1,0 +1,90 @@
+.sideBarButton {
+  color: #fff;
+  background-color: #5d6cc5;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-right: 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  position: relative;
+  left: 0;
+  width: 5vw;
+  height: 4vw;
+}
+
+.sideBarButton:hover {
+  background-color: #555555;
+  color: black;
+}
+
+.MuiDrawer-paper {
+  width: 250px;
+  position: absolute;
+  background-color: #3d3d3d;
+}
+
+.MuiListItemText-root {
+  color: #ffffff;
+}
+.MuiList-root {
+  border-bottom: black 2px solid;
+  padding-top: 0;
+}
+
+.profile-container {
+  display: flex;
+  border-bottom: black 2px solid;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+  border-radius: 30%;
+  margin-bottom: 10px;
+}
+
+.profile-link {
+  text-decoration: none;
+  color: inherit;
+}
+.profile-bgc {
+  background-color: #4a4a4a;
+}
+.chats-name {
+  color: white;
+}
+
+.chat-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: #f5f5f5;
+}
+
+.chat-name {
+  font-weight: bold;
+}
+
+.username {
+  text-align: center;
+  margin-top: 10px;
+}
