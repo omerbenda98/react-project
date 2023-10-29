@@ -60,22 +60,25 @@ const RegisterPage = () => {
         return;
       }
       await handleFileUpload();
-      await axios.post("/users/register", {
-        firstName: inputState.firstName,
-        middleName: inputState.middleName,
-        lastName: inputState.lastName,
-        phone: inputState.phone,
-        email: inputState.email,
-        password: inputState.password,
-        state: inputState.state,
-        country: inputState.country,
-        city: inputState.city,
-        imageUrl: inputState.imageUrl,
-        street: inputState.street,
-        houseNumber: inputState.houseNumber,
-        zipCode: inputState.zipCode,
-        biz: inputState.biz,
-      });
+      await axios.post(
+        "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/register",
+        {
+          firstName: inputState.firstName,
+          middleName: inputState.middleName,
+          lastName: inputState.lastName,
+          phone: inputState.phone,
+          email: inputState.email,
+          password: inputState.password,
+          state: inputState.state,
+          country: inputState.country,
+          city: inputState.city,
+          imageUrl: inputState.imageUrl,
+          street: inputState.street,
+          houseNumber: inputState.houseNumber,
+          zipCode: inputState.zipCode,
+          biz: inputState.biz,
+        }
+      );
 
       if (!joiResponse) {
         navigate(ROUTES.LOGIN);
