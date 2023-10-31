@@ -30,13 +30,18 @@ function Sidebar() {
   useEffect(() => {
     const fetchActiveChats = async () => {
       try {
-        const userInfoResponse = await axios.get(`/users/userInfo`);
+        const userInfoResponse = await axios.get(
+          `https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/userInfo`
+        );
         const userID = userInfoResponse.data._id;
         setUserInfo(userInfoResponse.data);
 
-        const response = await axios.get("/chats/activeChats", {
-          params: { userID },
-        });
+        const response = await axios.get(
+          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/chats/activeChats",
+          {
+            params: { userID },
+          }
+        );
         setActiveChats(response.data);
       } catch (error) {
         console.error("Error fetching active chats", error);
@@ -49,7 +54,9 @@ function Sidebar() {
 
   const handleListItemClick = (chat) => {
     setIsOpen(false);
-    navigate(`/chats/${chat.otherUserID}/${userInfo._id}`);
+    navigate(
+      `https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/chats/${chat.otherUserID}/${userInfo._id}`
+    );
   };
 
   return (
