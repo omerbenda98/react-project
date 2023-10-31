@@ -32,11 +32,15 @@ const useFileUpload = () => {
 
       // Make an axios POST request to upload the image
       try {
-        const response = await axios.post("/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const response = await axios.post(
+          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
         newImageUrl = response.data.imageUrl;
         updateInputState((prev) => ({ ...prev, imageUrl: newImageUrl }));
