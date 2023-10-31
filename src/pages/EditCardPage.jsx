@@ -92,7 +92,7 @@ const EditCardPage = () => {
       if (!joiResponse) {
         await handleFileUpload();
         await axios.put(
-          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/cards" + id,
+          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/cards/" + id,
           inputState
         );
         URL.revokeObjectURL(preview);
