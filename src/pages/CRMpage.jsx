@@ -19,7 +19,9 @@ const CRMPage = () => {
 
   useEffect(() => {
     axios
-      .get("/users/getAllUsers")
+      .get(
+        "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/getAllUsers"
+      )
       .then((response) => {
         setAllUsers(response.data.users);
       })
@@ -33,7 +35,10 @@ const CRMPage = () => {
     try {
       delete user._id;
       delete user.isAdmin;
-      await axios.put(`/users/userInfo/${userId}`, user);
+      await axios.put(
+        `https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/userInfo/${userId}`,
+        user
+      );
       toast.success("user updated");
     } catch (err) {
       console.log("err", err);

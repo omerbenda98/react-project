@@ -19,7 +19,9 @@ const MyCardsPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get("/cards/my-cards");
+        const { data } = await axios.get(
+          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/cards/my-cards"
+        );
         setUserData(data);
       } catch (err) {
         console.log("error from axios", err);

@@ -35,7 +35,9 @@ const EditCardPage = () => {
           navigate("/react-project");
           return;
         }
-        const { data } = await axios.get("/cards/" + id);
+        const { data } = await axios.get(
+          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/cards/" + id
+        );
 
         let newInputState = {
           ...data,

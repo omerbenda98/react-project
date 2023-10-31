@@ -65,7 +65,10 @@ const CreateCardPage = () => {
       if (!joiResponse) {
         inputState.imageUrl = await handleFileUpload();
 
-        await axios.post("/cards", inputState);
+        await axios.post(
+          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/cards",
+          inputState
+        );
 
         navigate(ROUTES.HOME);
         toast.success("card added successfully");

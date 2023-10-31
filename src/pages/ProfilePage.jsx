@@ -59,7 +59,10 @@ const ProfilePage = () => {
         return;
       }
 
-      const { data } = await axios.put("/users/userInfo", profileData);
+      const { data } = await axios.put(
+        "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/userInfo",
+        profileData
+      );
 
       if (inputState.biz !== originalInputState.biz) {
         const newToken = data.token.token;
