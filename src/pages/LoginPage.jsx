@@ -37,7 +37,10 @@ const LoginPage = () => {
         return;
       }
 
-      const { data } = await axios.post("/users/login", inputState);
+      const { data } = await axios.post(
+        "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/login",
+        inputState
+      );
       localStorage.setItem("token", data.token);
       loggedIn();
       isAdmin();
