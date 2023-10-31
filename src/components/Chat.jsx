@@ -15,11 +15,14 @@ function Chat({ socket, userID, otherUserID }) {
     socket.emit("joinRoom", roomID);
     const fetchChatHistory = async () => {
       try {
-        const response = await axios.get("/chats/history", {
-          params: {
-            roomID: roomID,
-          },
-        });
+        const response = await axios.get(
+          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/chats/history",
+          {
+            params: {
+              roomID: roomID,
+            },
+          }
+        );
         setMessageList(response.data);
       } catch (error) {
         console.error("Error fetching chat history", error);

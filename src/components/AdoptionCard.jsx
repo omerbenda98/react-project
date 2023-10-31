@@ -50,7 +50,9 @@ const AdoptionCard = ({
 
   const handleDeleteBtnClick = async (id) => {
     try {
-      await axios.delete("/cards/" + id);
+      await axios.delete(
+        "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/cards/" + id
+      );
       onDelete(id);
       toast.success("Card Deleted");
     } catch (err) {

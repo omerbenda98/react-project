@@ -84,7 +84,9 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await axios.get("/users/userInfo");
+        const { data } = await axios.get(
+          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/userInfo"
+        );
         delete data._id;
         delete data.isAdmin;
         setInputState(data);

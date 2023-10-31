@@ -91,7 +91,10 @@ const EditCardPage = () => {
       setInputsErrorsState(joiResponse);
       if (!joiResponse) {
         await handleFileUpload();
-        await axios.put("/cards/" + id, inputState);
+        await axios.put(
+          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/cards/" + id,
+          inputState
+        );
         URL.revokeObjectURL(preview);
         toast.success("Card Edited Successfully");
         navigate(ROUTES.HOME);
