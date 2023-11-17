@@ -10,12 +10,12 @@ const ListComponent = ({ name, img, height, weight, lifeSpan, origin, id }) => {
   };
   return (
     <div className="list-item">
+      <span className="list-title neon">Breed : {name}</span>
       <div className="icon">
         <img src={img} alt={name} className="list-img"></img>
-        <div className="neon">origin : {origin}</div>
+        {origin && <div className="origin neon">origin : {origin}</div>}
       </div>
       <div className="list-content">
-        <span className="list-title neon">Breed : {name}</span>
         <div className="list-desc">
           <div className="info-item">height : {height} CM </div>
           <div className="info-item">weight : {weight.metric} </div>
