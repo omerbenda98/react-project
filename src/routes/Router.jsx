@@ -80,7 +80,15 @@ const AppRouter = () => {
         }
       />
 
-      <Route path="*" element={<h1>404</h1>} />
+      <Route
+        path="*"
+        element={
+          <div>
+            <h1>404</h1>
+            <a href={ROUTES.HOME}>Home Page</a>
+          </div>
+        }
+      />
     </Routes>
   );
 };
