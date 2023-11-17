@@ -1,7 +1,7 @@
 const ROUTES = {
-  HOME: "/react-project",
-  ABOUT: "/react-project/about",
-  FAKEHOME: "/react-project/home",
+  HOME: "/",
+  ABOUT: "/about",
+  FAKEHOME: "/home",
   REGISTER: "/register",
   LOGIN: "/login",
   CREATE: "/createCard",
@@ -9,7 +9,7 @@ const ROUTES = {
   LOGOUT: "/logout",
   MYCARDS: "/myCards",
   CRM: "/crm",
-  ADOPTION: "/react-project/adoption",
+  ADOPTION: "/adoption",
   CHAT: "/chats",
   DONATION: "/donation",
 };
