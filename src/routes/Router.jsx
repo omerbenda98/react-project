@@ -16,6 +16,7 @@ import AdoptionPage from "../pages/AdoptionPage";
 import BreedPage from "../pages/BreedPage";
 import ChatPage from "../pages/ChatPage";
 import DonationPage from "../pages/DonationPage";
+import { Link } from "react-router-dom";
 
 const AppRouter = () => {
   return (
@@ -85,7 +86,7 @@ const AppRouter = () => {
         element={
           <div>
             <h1>404</h1>
-            <a href={ROUTES.HOME}>Home Page</a>
+            <Link href={ROUTES.HOME}>Home Page</Link>
           </div>
         }
       />
