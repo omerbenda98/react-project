@@ -1,5 +1,4 @@
-import { Navigate, Routes } from "react-router-dom";
-import { HashRouter as Router, Route } from "react-router-dom";
+import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import RegisterPage from "../pages/RegisterPage";
 import ROUTES from "./ROUTES";
@@ -21,7 +20,7 @@ import DonationPage from "../pages/DonationPage";
 const AppRouter = () => {
   return (
     <HashRouter>
-      <Router>
+      <Routes>
         <Route path={ROUTES.HOME} element={<HomePage />} />
         <Route path={ROUTES.ABOUT} element={<AboutPage />} />
         <Route path={ROUTES.FAKEHOME} element={<Navigate to={ROUTES.HOME} />} />
@@ -83,7 +82,7 @@ const AppRouter = () => {
         />
 
         <Route path="*" element={<h1>404</h1>} />
-      </Router>
+      </Routes>
     </HashRouter>
   );
 };
