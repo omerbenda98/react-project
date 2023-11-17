@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import RegisterPage from "../pages/RegisterPage";
 import ROUTES from "./ROUTES";
@@ -17,9 +17,9 @@ import BreedPage from "../pages/BreedPage";
 import ChatPage from "../pages/ChatPage";
 import DonationPage from "../pages/DonationPage";
 
-const Router = () => {
+const AppRouter = () => {
   return (
-    <Routes>
+    <>
       <Route path={ROUTES.HOME} element={<HomePage />} />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.FAKEHOME} element={<Navigate to={ROUTES.HOME} />} />
@@ -81,8 +81,8 @@ const Router = () => {
       />
 
       <Route path="*" element={<h1>404</h1>} />
-    </Routes>
+    </>
   );
 };
 
-export default Router;
+export default AppRouter;

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+      // Check if the URL is trying to access a subpage
+      if (location.pathname !== "/") {
+        // Redirect to the homepage and append the path
+        location.replace("/#" + location.pathname);
+      }
+    </script>
+  </head>
+  <body></body>
+</html>
