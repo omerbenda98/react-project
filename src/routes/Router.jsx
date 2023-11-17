@@ -86,7 +86,7 @@ const AppRouter = () => {
         element={
           <div>
             <h1>404</h1>
-            <Link href={ROUTES.HOME}>Home Page</Link>
+            <Link to={ROUTES.HOME}>Home Page</Link>
           </div>
         }
       />
