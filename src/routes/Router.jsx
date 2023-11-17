@@ -19,7 +19,7 @@ import DonationPage from "../pages/DonationPage";
 
 const AppRouter = () => {
   return (
-    <>
+    <Routes>
       <Route path={ROUTES.HOME} element={<HomePage />} />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.FAKEHOME} element={<Navigate to={ROUTES.HOME} />} />
@@ -81,7 +81,7 @@ const AppRouter = () => {
       />
 
       <Route path="*" element={<h1>404</h1>} />
-    </>
+    </Routes>
   );
 };
 
