@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-project/static/css/main.bb840807.css",
-    "main.js": "/react-project/static/js/main.0b2632e6.js",
+    "main.js": "/react-project/static/js/main.1fd66a9d.js",
     "static/js/787.16364f74.chunk.js": "/react-project/static/js/787.16364f74.chunk.js",
     "static/media/roboto-all-500-normal.woff": "/react-project/static/media/roboto-all-500-normal.0ab669b7a0d19b178f57.woff",
     "static/media/roboto-all-700-normal.woff": "/react-project/static/media/roboto-all-700-normal.a457fde362a540fcadff.woff",
@@ -40,11 +40,11 @@
     "static/media/roboto-greek-ext-700-normal.woff2": "/react-project/static/media/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
     "index.html": "/react-project/index.html",
     "main.bb840807.css.map": "/react-project/static/css/main.bb840807.css.map",
-    "main.0b2632e6.js.map": "/react-project/static/js/main.0b2632e6.js.map",
+    "main.1fd66a9d.js.map": "/react-project/static/js/main.1fd66a9d.js.map",
     "787.16364f74.chunk.js.map": "/react-project/static/js/787.16364f74.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bb840807.css",
-    "static/js/main.0b2632e6.js"
+    "static/js/main.1fd66a9d.js"
   ]
 }
