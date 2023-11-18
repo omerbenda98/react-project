@@ -11,7 +11,6 @@ const DisplayControlBar = ({ setDisplayType }) => {
       </button>
       <button
         onClick={() => {
-          console.log("List button clicked!");
           setDisplayType("list");
         }}
       >
