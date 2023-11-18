@@ -14,6 +14,7 @@ import Loader from "../components/Loader";
 import DisplayControlBar from "../components/DisplayControlBar";
 import ListComponent from "../components/ListComponent";
 import CarouselComponent from "../components/CarouselComponent";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
@@ -22,6 +23,7 @@ const HomePage = () => {
   const [itemsPerPage, setItemsPerPage] = useState(9);
   const [selectedCard, setSelectedCard] = useState(null);
   const [displayType, setDisplayType] = useState("card");
+  const navigate = useNavigate();
 
   let qparams = useQueryParams();
 
@@ -86,6 +88,7 @@ const HomePage = () => {
     if (!selectedBreed) {
       toast.error("cannot find breed");
     } else {
+      navigate(`/breed/${id}`);
     }
   };
 
