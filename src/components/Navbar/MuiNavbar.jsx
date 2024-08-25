@@ -22,6 +22,7 @@ import "./navbar_css/MuiNavbar.css";
 import { authActions } from "../../store/auth";
 import Sidebar from "./Sidebar";
 import PetsIcon from "@mui/icons-material/Pets";
+import FavoriteIcon from "@mui/icons-material/Favorite"; // Import heart icon
 
 // access to all
 const pages = [
@@ -112,207 +113,134 @@ const MuiNavbar = () => {
   return (
     <AppBar position="static" sx={{ width: "100%", m: "0" }} id="NavBGcolor">
       <Container maxWidth="false">
-        <Toolbar>
-          {isLoggedIn && <Sidebar />}
-          <IconButton onClick={handleHomeIconClick}>
-            <PetsIcon sx={{ fontSize: "4rem" }} />
-
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{ display: { xs: "none", md: "inline" } }}
-            >
-              DogHome
-            </Typography>
-          </IconButton>
-
-          {/* main navbar */}
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: { xs: "none", md: "flex" },
-            }}
-          >
-            {pages.map((page) => (
-              <NavLinkComponent key={page.url} {...page} />
-            ))}
-            {isBiz
-              ? bizPages.map((page) => (
-                  <NavLinkComponent key={page.url} {...page} />
-                ))
-              : ""}
-            {isAdmin
-              ? adminPages.map((page) => (
-                  <NavLinkComponent key={page.url} {...page} />
-                ))
-              : ""}
-          </Box>
-          <Box sx={{ display: { xs: "none", md: "flex", lg: "flex" } }}>
-            {" "}
-            <SearchPartial sx={{ mt: { lg: 3 } }} />
-          </Box>
-          <Box sx={{ display: { xs: "none", md: "flex", lg: "flex" } }}>
-            {isLoggedIn
-              ? authedPages.map((page) =>
-                  page.url === ROUTES.LOGOUT ? (
-                    <NavLinkComponent
-                      key={page.url}
-                      {...page}
-                      onClick={logoutClick}
-                    />
-                  ) : (
-                    <NavLinkComponent key={page.url} {...page} />
-                  )
-                )
-              : notAuthPages.map((page) => (
-                  <NavLinkComponent key={page.url} {...page} />
-                ))}
-          </Box>
-
-          <Box sx={{ my: 2, p: 1 }}>
-            <Typography sx={{ display: { xs: "none", md: "inline" } }}>
-              {isDarkTheme ? (
-                <DarkModeIcon
-                  sx={{
-                    fontSize: "2rem",
-                    mt: 1,
-                  }}
-                />
-              ) : (
-                <LightModeIcon
-                  sx={{
-                    fontSize: "2rem",
-                    mt: 1,
-                  }}
-                />
-              )}
-            </Typography>
-          </Box>
-          <Switch checked={isDarkTheme} onChange={changeTheme} />
-          {/* hamburger with menu */}
-          <Box
-            sx={{
-              flexGrow: 1,
-              flex: 1,
-              display: { xs: "flex", md: "none" },
-              justifyContent: "flex-end",
-            }}
-          >
-            <IconButton
-              size="large"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          {/* Left side */}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {isLoggedIn && <Sidebar />}
+            <IconButton onClick={handleHomeIconClick}>
+              <PetsIcon sx={{ fontSize: "4rem" }} />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
-                <MenuItem
-                  key={"miniLinks" + page.url}
-                  component={NavLink}
-                  to={page.url}
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography
-                    sx={{
-                      textAlign: "center",
-                      color: "inherit",
-                    }}
-                  >
-                    {page.label}
-                  </Typography>
-                </MenuItem>
+                <NavLinkComponent key={page.url} {...page} />
               ))}
-              {isBiz &&
-                bizPages.map((page) => (
-                  <MenuItem
-                    key={"miniLinks" + page.url}
-                    component={NavLink}
-                    to={page.url}
-                    onClick={handleCloseNavMenu}
-                  >
-                    <Typography
-                      sx={{
-                        textAlign: "center",
-                        color: "inherit",
-                      }}
-                    >
-                      {page.label}
-                    </Typography>
-                  </MenuItem>
-                ))}
-              {isAdmin &&
-                adminPages.map((page) => (
-                  <MenuItem
-                    key={"miniLinks" + page.url}
-                    component={NavLink}
-                    to={page.url}
-                    onClick={handleCloseNavMenu}
-                  >
-                    <Typography
-                      sx={{
-                        textAlign: "center",
-                        color: "inherit",
-                      }}
-                    >
-                      {page.label}
-                    </Typography>
-                  </MenuItem>
-                ))}
+              {isBiz
+                ? bizPages.map((page) => (
+                    <NavLinkComponent key={page.url} {...page} />
+                  ))
+                : ""}
+              {isAdmin
+                ? adminPages.map((page) => (
+                    <NavLinkComponent key={page.url} {...page} />
+                  ))
+                : ""}
+            </Box>
+          </Box>
+
+          {/* Center title */}
+          <Typography
+            variant="h4"
+            noWrap
+            component="div"
+            sx={{
+              position: "absolute",
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontFamily: "'Pacifico', cursive",
+              color: "white",
+              textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+            }}
+          >
+            Paws <FavoriteIcon sx={{ mx: 1, color: "red" }} /> Hearts
+          </Typography>
+
+          {/* Right side */}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              <SearchPartial sx={{ mt: { lg: 3 } }} />
               {isLoggedIn
                 ? authedPages.map((page) =>
                     page.url === ROUTES.LOGOUT ? (
-                      <MenuItem
-                        key={"miniLinks" + page.url}
-                        component={NavLink}
-                        to={page.url}
+                      <NavLinkComponent
+                        key={page.url}
+                        {...page}
                         onClick={logoutClick}
-                      >
-                        <Typography
-                          sx={{
-                            textAlign: "center",
-                            color: "inherit",
-                          }}
-                        >
-                          {page.label}
-                        </Typography>
-                      </MenuItem>
+                      />
                     ) : (
-                      <MenuItem
-                        key={"miniLinks" + page.url}
-                        component={NavLink}
-                        to={page.url}
-                        onClick={handleCloseNavMenu}
-                      >
-                        <Typography
-                          sx={{
-                            textAlign: "center",
-                            color: "inherit",
-                          }}
-                        >
-                          {page.label}
-                        </Typography>
-                      </MenuItem>
+                      <NavLinkComponent key={page.url} {...page} />
                     )
                   )
                 : notAuthPages.map((page) => (
+                    <NavLinkComponent key={page.url} {...page} />
+                  ))}
+            </Box>
+            <Box sx={{ my: 2, p: 1 }}>
+              <Typography sx={{ display: { xs: "none", md: "inline" } }}>
+                {isDarkTheme ? (
+                  <DarkModeIcon
+                    sx={{
+                      fontSize: "2rem",
+                      mt: 1,
+                    }}
+                  />
+                ) : (
+                  <LightModeIcon
+                    sx={{
+                      fontSize: "2rem",
+                      mt: 1,
+                    }}
+                  />
+                )}
+              </Typography>
+            </Box>
+            <Switch checked={isDarkTheme} onChange={changeTheme} />
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {pages.map((page) => (
+                  <MenuItem
+                    key={"miniLinks" + page.url}
+                    component={NavLink}
+                    to={page.url}
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography
+                      sx={{
+                        textAlign: "center",
+                        color: "inherit",
+                      }}
+                    >
+                      {page.label}
+                    </Typography>
+                  </MenuItem>
+                ))}
+                {isBiz &&
+                  bizPages.map((page) => (
                     <MenuItem
                       key={"miniLinks" + page.url}
                       component={NavLink}
@@ -329,7 +257,79 @@ const MuiNavbar = () => {
                       </Typography>
                     </MenuItem>
                   ))}
-            </Menu>
+                {isAdmin &&
+                  adminPages.map((page) => (
+                    <MenuItem
+                      key={"miniLinks" + page.url}
+                      component={NavLink}
+                      to={page.url}
+                      onClick={handleCloseNavMenu}
+                    >
+                      <Typography
+                        sx={{
+                          textAlign: "center",
+                          color: "inherit",
+                        }}
+                      >
+                        {page.label}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                {isLoggedIn
+                  ? authedPages.map((page) =>
+                      page.url === ROUTES.LOGOUT ? (
+                        <MenuItem
+                          key={"miniLinks" + page.url}
+                          component={NavLink}
+                          to={page.url}
+                          onClick={logoutClick}
+                        >
+                          <Typography
+                            sx={{
+                              textAlign: "center",
+                              color: "inherit",
+                            }}
+                          >
+                            {page.label}
+                          </Typography>
+                        </MenuItem>
+                      ) : (
+                        <MenuItem
+                          key={"miniLinks" + page.url}
+                          component={NavLink}
+                          to={page.url}
+                          onClick={handleCloseNavMenu}
+                        >
+                          <Typography
+                            sx={{
+                              textAlign: "center",
+                              color: "inherit",
+                            }}
+                          >
+                            {page.label}
+                          </Typography>
+                        </MenuItem>
+                      )
+                    )
+                  : notAuthPages.map((page) => (
+                      <MenuItem
+                        key={"miniLinks" + page.url}
+                        component={NavLink}
+                        to={page.url}
+                        onClick={handleCloseNavMenu}
+                      >
+                        <Typography
+                          sx={{
+                            textAlign: "center",
+                            color: "inherit",
+                          }}
+                        >
+                          {page.label}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+              </Menu>
+            </Box>
           </Box>
         </Toolbar>
       </Container>

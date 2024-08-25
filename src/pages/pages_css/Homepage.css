@@ -1,14 +1,90 @@
 .homeImg {
-  text-align: center;
-  margin-top: 3;
-  margin-bottom: 0;
-  background-image: url("/public/dogImg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  height: 500px; /* Increased height */
 }
+
+.background-carousel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  display: flex;
+  animation: carousel 60s linear infinite;
+}
+
+.carousel-image {
+  width: 10%; /* 10% because we have 10 images, repeated twice */
+  height: 100%;
+  object-fit: cover;
+}
+
+.content-overlay {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  padding: 2rem 0;
+}
+
+.navbar-container {
+  width: 100%;
+}
+
+.navbar-container:hover {
+  overflow: visible;
+}
+
+.MuiPopover-root {
+  z-index: 1100 !important;
+}
+
+.MuiMenu-paper {
+  max-height: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .carousel-image {
+    width: 20%;
+  }
+  .background-carousel {
+    width: 400%;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-image {
+    width: 33.33%;
+  }
+  .background-carousel {
+    width: 600%;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-image {
+    width: 50%;
+  }
+  .background-carousel {
+    width: 800%;
+  }
+}
+
+@keyframes carousel {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 .home-pages-buttons {
   display: flex;
   justify-content: center;

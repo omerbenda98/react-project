@@ -24,6 +24,7 @@ const HomePage = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [displayType, setDisplayType] = useState("card");
   const navigate = useNavigate();
+  const [backgroundImages, setBackgroundImages] = useState([]);
 
   let qparams = useQueryParams();
 
@@ -70,6 +71,31 @@ const HomePage = () => {
         toast.error("Error fetching data");
       });
   }, []);
+
+  // New useEffect for fetching background images
+  useEffect(() => {
+    const fetchBackgroundImages = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.thedogapi.com/v1/images/search",
+          {
+            params: { limit: 10, size: "full" },
+            headers: {
+              "x-api-key":
+                "live_1q9YlMXuO0F09aHtY4RAbIy2qYofCpmrSt7hbvRjelw6YX4XGsEFtdXP8vVIf9O3",
+            },
+          }
+        );
+        setBackgroundImages(response.data.map((img) => img.url));
+      } catch (err) {
+        console.log("Error fetching background images", err);
+        toast.error("Error fetching background images");
+      }
+    };
+
+    fetchBackgroundImages();
+  }, []);
+
   const getTokenId = () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -112,28 +138,53 @@ const HomePage = () => {
   return (
     <Box className="home-bg">
       <Box className="homeImg">
-        <Typography className="neon" variant="h2" sx={{ pt: "4rem" }}>
-          Welcome to DogHome!!!!!!
-        </Typography>
-        <Typography
-          variant="h5"
-          component="h2"
-          className="neon"
-          sx={{ mt: 2, mb: 2, color: "white" }}
-        >
-          Explore and discover different dog breeds
-        </Typography>
-        <Typography
-          variant="h5"
-          component="h2"
-          className="neon"
-          sx={{ mt: 2, mb: 2, color: "white" }}
-        >
-          find a dog for adoption and give him a warm new home
-        </Typography>
-        <Navbar />
+        <div className="background-carousel">
+          {backgroundImages.concat(backgroundImages).map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt={`Dog ${index + 1}`}
+              className="carousel-image"
+            />
+          ))}
+        </div>
+        <div className="content-overlay">
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Typography className="neon" variant="h2">
+              Welcome to Paws & Hearts!
+            </Typography>
+            <Typography
+              variant="h5"
+              component="h2"
+              className="neon"
+              sx={{ mt: 2, mb: 2, color: "white" }}
+            >
+              Explore and discover different dog breeds
+            </Typography>
+            <Typography
+              variant="h5"
+              component="h2"
+              className="neon"
+              sx={{ mt: 2, mb: 2, color: "white" }}
+            >
+              find a dog for adoption and give him a warm new home
+            </Typography>
+          </Box>
+          <Box className="navbar-container">
+            <Navbar />
+          </Box>
+        </div>
       </Box>
-      <DisplayControlBar setDisplayType={setDisplayType} />
+      <Box sx={{ mt: 2 }}>
+        <DisplayControlBar setDisplayType={setDisplayType} />
+      </Box>
       <br />
       <Grid
         container

@@ -11,7 +11,14 @@
   transition: 0.5s;
   animation: gradient_301 5s ease infinite;
   border: double 4px transparent;
-  background-image: linear-gradient(#212121, #212121),  linear-gradient(137.48deg, #afafaf 10%,#ffffff 45%, #727272 67%, #2d2d2d 87%);
+  background-image: linear-gradient(#242b23, #92b091),
+    linear-gradient(
+      137.48deg,
+      #93db90 10%,
+      #c9eac3 45%,
+      #727272 67%,
+      #2d2d2d 87%
+    );
   background-origin: border-box;
   background-clip: content-box, border-box;
 }
@@ -29,10 +36,10 @@
 
 .label {
   z-index: 2;
-  font-family: 'Avalors Personal Use';
+  font-family: "Avalors Personal Use";
   font-size: 12px;
   letter-spacing: 5px;
-  color: #FFFFFF;
+  color: #ffffff;
   text-shadow: 0 0 4px white;
 }
 
@@ -65,11 +72,11 @@
 }
 
 .btn:hover {
-  transform: scale(1.1)
+  transform: scale(1.1);
 }
 
 .btn:active {
-  border: double 4px #FE53BB;
+  border: double 4px #fe53bb;
   background-origin: border-box;
   background-clip: content-box, border-box;
   animation: none;
