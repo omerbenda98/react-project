@@ -97,7 +97,12 @@ function App() {
         pauseOnHover
         theme="colored"
       />
-      <Container maxWidth={false} disableGutters id="mainContainer">
+      <Container
+        maxWidth={false}
+        disableGutters
+        id="mainContainer"
+        data-testid="app-component"
+      >
         <header>
           <MuiNavbar />
           {/* <Sidebar /> */}
