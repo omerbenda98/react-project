@@ -113,7 +113,7 @@ const HomePage = () => {
     <Box className="home-bg">
       <Box className="homeImg">
         <Typography className="neon" variant="h2" sx={{ pt: "4rem" }}>
-          Welcome to DogHome!!!
+          Welcome to DogHome!!!!!!
         </Typography>
         <Typography
           variant="h5"
