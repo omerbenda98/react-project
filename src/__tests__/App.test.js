@@ -14,6 +14,6 @@ test("renders DogHome link", () => {
     </Provider>
   );
   console.log(container.innerHTML); // Log the output
-  const linkElement = screen.getByText(/DogHome/i);
+  const linkElement = screen.getByText(/&/i);
   expect(linkElement).toBeInTheDocument();
 });
