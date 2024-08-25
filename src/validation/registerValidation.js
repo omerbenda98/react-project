@@ -1,7 +1,5 @@
 import Joi from "joi";
 
-import validation from "./validation";
-
 const registerSchema = Joi.object({
   firstName: Joi.string().min(2).max(256).required(),
   middleName: Joi.string().min(2).max(256).allow(""),
@@ -24,7 +22,19 @@ const registerSchema = Joi.object({
   biz: Joi.boolean(),
 });
 
-const validateRegisterSchema = (userInput) =>
-  validation(registerSchema, userInput);
+const validateRegisterSchema = (inputToValidate) => {
+  const { error } = registerSchema.validate(inputToValidate, {
+    abortEarly: false,
+  });
+  if (!error) {
+    return null;
+  }
+
+  const errors = {};
+  error.details.forEach((detail) => {
+    errors[detail.path[0]] = detail.message;
+  });
+  return errors;
+};
 
 export default validateRegisterSchema;

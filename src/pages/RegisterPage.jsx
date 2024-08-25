@@ -13,10 +13,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import validateRegisterSchema from "../validation/registerValidation";
 import ROUTES from "../routes/ROUTES";
-import UserAvatar from "../components/Navbar/NavProfile";
 import useFileUpload from "../hooks/useFileUpload";
 import { styled } from "@mui/material/styles";
 import UploadIcon from "@mui/icons-material/Upload";
+import Avatar from "@mui/material/Avatar";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -31,6 +31,13 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   marginTop: theme.spacing(3),
+}));
+
+const StyledAvatar = styled(Avatar)(({ theme }) => ({
+  width: 100,
+  height: 100,
+  marginBottom: 16,
+  border: "none",
 }));
 
 const RegisterPage = () => {
@@ -108,17 +115,25 @@ const RegisterPage = () => {
     navigate(ROUTES.HOME);
   };
   const handleInputChange = (ev) => {
-    let newInputState = JSON.parse(JSON.stringify(inputState));
-    newInputState[ev.target.id] = ev.target.value;
-    setInputState(newInputState);
-    const joiResponse = validateRegisterSchema(newInputState);
-    if (!joiResponse) {
-      setIsDisabled(false);
-      setInputsErrorsState(null);
-    } else {
-      setInputsErrorsState(joiResponse);
-      setIsDisabled(true);
-    }
+    const { id, value } = ev.target;
+    setInputState((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+
+    // Validate only the changed field
+    const fieldToValidate = { [id]: value };
+    const fieldError = validateRegisterSchema(fieldToValidate);
+
+    setInputsErrorsState((prevErrors) => ({
+      ...prevErrors,
+      [id]: fieldError ? fieldError[id] : null,
+    }));
+
+    // Check if the entire form is valid
+    const updatedInputState = { ...inputState, [id]: value };
+    const joiResponse = validateRegisterSchema(updatedInputState);
+    setIsDisabled(!!joiResponse);
   };
   const handleCheckboxChange = (ev) => {
     setInputState((prevState) => ({
@@ -160,7 +175,7 @@ const RegisterPage = () => {
             }}
           />
         ) : (
-          <UserAvatar style={{ width: 100, height: 100, marginBottom: 16 }} />
+          <StyledAvatar />
         )}
         <Typography component="h1" variant="h4" gutterBottom>
           Sign up
@@ -177,11 +192,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.firstName && (
-              <Alert severity="warning">
-                {inputsErrorsState.firstName.map((item) => (
-                  <div key={"firstName-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.firstName}</Alert>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -195,11 +206,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.middleName && (
-              <Alert severity="warning">
-                {inputsErrorsState.password.map((item) => (
-                  <div key={"middleName-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.middleName}</Alert>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -214,11 +221,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.lastName && (
-              <Alert severity="warning">
-                {inputsErrorsState.lastName.map((item) => (
-                  <div key={"lastName-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.lastName}</Alert>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -234,11 +237,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.phone && (
-              <Alert severity="warning">
-                {inputsErrorsState.phone.map((item) => (
-                  <div key={"phone-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.phone}</Alert>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -253,11 +252,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.email && (
-              <Alert severity="warning">
-                {inputsErrorsState.email.map((item) => (
-                  <div key={"email-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.email}</Alert>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -273,11 +268,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.password && (
-              <Alert severity="warning">
-                {inputsErrorsState.password.map((item) => (
-                  <div key={"password-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.password}</Alert>
             )}
           </Grid>
 
@@ -293,11 +284,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.state && (
-              <Alert severity="warning">
-                {inputsErrorsState.state.map((item) => (
-                  <div key={"state-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.state}</Alert>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -313,11 +300,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.country && (
-              <Alert severity="warning">
-                {inputsErrorsState.country.map((item) => (
-                  <div key={"country-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.country}</Alert>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -333,11 +316,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.city && (
-              <Alert severity="warning">
-                {inputsErrorsState.city.map((item) => (
-                  <div key={"city-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.city}</Alert>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -353,11 +332,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.street && (
-              <Alert severity="warning">
-                {inputsErrorsState.street.map((item) => (
-                  <div key={"street-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.street}</Alert>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -373,11 +348,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.houseNumber && (
-              <Alert severity="warning">
-                {inputsErrorsState.houseNumber.map((item) => (
-                  <div key={"houseNumber-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.houseNumber}</Alert>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -392,11 +363,7 @@ const RegisterPage = () => {
               onChange={handleInputChange}
             />
             {inputsErrorsState && inputsErrorsState.zipCode && (
-              <Alert severity="warning">
-                {inputsErrorsState.zipCode.map((item) => (
-                  <div key={"zipCode-errors" + item}>{item}</div>
-                ))}
-              </Alert>
+              <Alert severity="warning">{inputsErrorsState.zipCode}</Alert>
             )}
           </Grid>
           <Grid item xs={12}>

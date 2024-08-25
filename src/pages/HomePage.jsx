@@ -190,7 +190,7 @@ const HomePage = () => {
         container
         spacing={6}
         sx={{
-          ml: 3,
+          ml: 10,
           mt: 3,
         }}
         width={"90%"}

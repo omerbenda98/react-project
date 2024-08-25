@@ -40,10 +40,10 @@
   align-items: center;
 }
 #mainContainer main .register-container {
-  background-color: rgba(57, 57, 57, 0.9);
+  background-color: rgba(57, 57, 57, 0.973);
   width: 40vw;
   padding: 2rem;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.846);
 }
 #mainContainer main .register-big-container {
   display: flex;
@@ -63,11 +63,11 @@
 }
 
 #mainContainer main .login-container {
-  background-color: rgba(57, 57, 57, 0.9);
+  background-color: rgba(57, 57, 57, 0.964);
   width: 40vw;
 
   padding: 2rem;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.509);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.773);
 }
 
 #mainContainer main .login-big-container {
