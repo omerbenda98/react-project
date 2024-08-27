@@ -58,14 +58,11 @@ function App() {
       }
 
       axios
-        .get(
-          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/validate-token",
-          {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          }
-        )
+        .get("http://puppyadoptions.duckdns.org:3000/api/validate-token", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           if (response.data.valid === false) {
             localStorage.removeItem("token");

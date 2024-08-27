@@ -36,7 +36,7 @@ const EditCardPage = () => {
           return;
         }
         const { data } = await axios.get(
-          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/cards/" + id
+          "http://puppyadoptions.duckdns.org:3000/api/cards/" + id
         );
 
         let newInputState = {
@@ -92,7 +92,7 @@ const EditCardPage = () => {
       if (!joiResponse) {
         await handleFileUpload();
         await axios.put(
-          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/cards/" + id,
+          "http://puppyadoptions.duckdns.org:3000/api/cards/" + id,
           inputState
         );
         URL.revokeObjectURL(preview);

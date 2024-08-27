@@ -85,7 +85,7 @@ const RegisterPage = () => {
       }
       await handleFileUpload();
       await axios.post(
-        "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/register",
+        "http://puppyadoptions.duckdns.org:3000/api/users/register",
         {
           firstName: inputState.firstName,
           middleName: inputState.middleName,

@@ -38,7 +38,7 @@ const LoginPage = () => {
       }
 
       const { data } = await axios.post(
-        "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/login",
+        "http://puppyadoptions.duckdns.org:3000/api/users/login",
         inputState
       );
       localStorage.setItem("token", data.token);

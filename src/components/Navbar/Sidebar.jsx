@@ -31,13 +31,13 @@ function Sidebar() {
     const fetchActiveChats = async () => {
       try {
         const userInfoResponse = await axios.get(
-          `https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/users/userInfo`
+          `http://puppyadoptions.duckdns.org:3000/api/users/userInfo`
         );
         const userID = userInfoResponse.data._id;
         setUserInfo(userInfoResponse.data);
 
         const response = await axios.get(
-          "https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/chats/activeChats",
+          "http://puppyadoptions.duckdns.org:3000/api/chats/activeChats",
           {
             params: { userID },
           }
@@ -55,7 +55,7 @@ function Sidebar() {
   const handleListItemClick = (chat) => {
     setIsOpen(false);
     navigate(
-      `https://dog-adopt-app-ae8e92c9ad07.herokuapp.com/api/chats/${chat.otherUserID}/${userInfo._id}`
+      `http://puppyadoptions.duckdns.org:3000/api/chats/${chat.otherUserID}/${userInfo._id}`
     );
   };
 
