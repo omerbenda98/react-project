@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../pages/pages_css/ChatPage.css";
 import axios from "axios";
+import { apiBaseUrl } from "../config";
 
 function Chat({ socket, userID, otherUserID }) {
   const [currentMessage, setCurrentMessage] = useState("");
@@ -15,14 +16,11 @@ function Chat({ socket, userID, otherUserID }) {
     socket.emit("joinRoom", roomID);
     const fetchChatHistory = async () => {
       try {
-        const response = await axios.get(
-          "https://puppyadoptions.duckdns.org:3000/api/chats/history",
-          {
-            params: {
-              roomID: roomID,
-            },
-          }
-        );
+        const response = await axios.get(`${apiBaseUrl}/chats/history`, {
+          params: {
+            roomID: roomID,
+          },
+        });
         setMessageList(response.data);
       } catch (error) {
         console.error("Error fetching chat history", error);

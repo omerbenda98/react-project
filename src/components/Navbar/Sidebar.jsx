@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import ChatIcon from "@mui/icons-material/Chat";
+import { apiBaseUrl } from "../../config";
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,17 +32,14 @@ function Sidebar() {
     const fetchActiveChats = async () => {
       try {
         const userInfoResponse = await axios.get(
-          `https://puppyadoptions.duckdns.org:3000/api/users/userInfo`
+          `${apiBaseUrl}/users/userInfo`
         );
         const userID = userInfoResponse.data._id;
         setUserInfo(userInfoResponse.data);
 
-        const response = await axios.get(
-          "https://puppyadoptions.duckdns.org:3000/api/chats/activeChats",
-          {
-            params: { userID },
-          }
-        );
+        const response = await axios.get(`${apiBaseUrl}/chats/activeChats`, {
+          params: { userID },
+        });
         setActiveChats(response.data);
       } catch (error) {
         console.error("Error fetching active chats", error);
@@ -54,9 +52,7 @@ function Sidebar() {
 
   const handleListItemClick = (chat) => {
     setIsOpen(false);
-    navigate(
-      `https://puppyadoptions.duckdns.org:3000/api/chats/${chat.otherUserID}/${userInfo._id}`
-    );
+    navigate(`${apiBaseUrl}/chats/${chat.otherUserID}/${userInfo._id}`);
   };
 
   return (

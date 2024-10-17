@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "./components_css/AdoptionCard.css";
 import propTypes from "prop-types";
+import { apiBaseUrl } from "../config";
 
 const AdoptionCard = ({
   name,
@@ -50,9 +51,7 @@ const AdoptionCard = ({
 
   const handleDeleteBtnClick = async (id) => {
     try {
-      await axios.delete(
-        "https://puppyadoptions.duckdns.org:3000/api/cards/" + id
-      );
+      await axios.delete(`${apiBaseUrl}/cards/${id}`);
       onDelete(id);
       toast.success("Card Deleted");
     } catch (err) {

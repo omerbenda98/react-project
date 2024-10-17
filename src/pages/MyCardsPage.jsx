@@ -10,6 +10,7 @@ import ROUTES from "../routes/ROUTES";
 import "./pages_css/Neon.css";
 import Loader from "../components/Loader";
 import AdoptionCard from "../components/AdoptionCard";
+import { apiBaseUrl } from "../config";
 
 const MyCardsPage = () => {
   const [userData, setUserData] = useState(null);
@@ -19,9 +20,7 @@ const MyCardsPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(
-          "https://puppyadoptions.duckdns.org:3000/api/cards/my-cards"
-        );
+        const { data } = await axios.get(`${apiBaseUrl}/cards/my-cards`);
         setUserData(data);
       } catch (err) {
         console.log("error from axios", err);

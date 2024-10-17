@@ -18,6 +18,7 @@ import useLoggedIn from "./hooks/useLoggedIn";
 import useAdmin from "./hooks/useAdmin";
 import useBiz from "./hooks/useBiz";
 import axios from "axios";
+import { apiBaseUrl } from "../src/config";
 
 const light = {
   palette: {
@@ -58,7 +59,7 @@ function App() {
       }
 
       axios
-        .get("https://puppyadoptions.duckdns.org:3000/api/validate-token", {
+        .get(`${apiBaseUrl}/validate-token`, {
           headers: {
             authorization: `Bearer ${token}`,
           },

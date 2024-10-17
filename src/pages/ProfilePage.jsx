@@ -18,6 +18,7 @@ import useLoggedIn from "../hooks/useLoggedIn";
 import useAdmin from "../hooks/useAdmin";
 import useBiz from "../hooks/useBiz";
 import "./pages_css/ProfilePage.css";
+import { apiBaseUrl } from "../config";
 
 const ProfilePage = () => {
   const [inputState, setInputState] = useState({});
@@ -60,7 +61,7 @@ const ProfilePage = () => {
       }
 
       const { data } = await axios.put(
-        "https://puppyadoptions.duckdns.org:3000/api/users/userInfo",
+        `${apiBaseUrl}/users/userInfo`,
         profileData
       );
 
@@ -84,9 +85,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await axios.get(
-          "https://puppyadoptions.duckdns.org:3000/api/users/userInfo"
-        );
+        const { data } = await axios.get(`${apiBaseUrl}/users/userInfo`);
         delete data._id;
         delete data.isAdmin;
         setInputState(data);

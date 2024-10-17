@@ -7,13 +7,14 @@ import "./pages_css/Neon.css";
 import "./pages_css/AdoptionPage.css";
 import Loader from "../components/Loader";
 import AdoptionCard from "../components/AdoptionCard";
+import { apiBaseUrl } from "../config";
 
 const AdoptionPage = () => {
   const [cardsArr, setCardsArr] = useState(null);
 
   useEffect(() => {
     axios
-      .get("https://puppyadoptions.duckdns.org:3000/api/cards/cards")
+      .get(`${apiBaseUrl}/cards/cards`)
       .then(({ data }) => {
         setCardsArr(data);
       })

@@ -16,6 +16,7 @@ import Loader from "../components/Loader";
 import useFileUpload from "../hooks/useFileUpload";
 import UserAvatar from "../components/Navbar/NavProfile";
 import "./pages_css/createCard.css";
+import { apiBaseUrl } from "../config";
 
 const CreateCardPage = () => {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -65,10 +66,7 @@ const CreateCardPage = () => {
       if (!joiResponse) {
         inputState.imageUrl = await handleFileUpload();
 
-        await axios.post(
-          "https://puppyadoptions.duckdns.org:3000/api/users/cards",
-          inputState
-        );
+        await axios.post(`${apiBaseUrl}/users/cards`, inputState);
 
         navigate(ROUTES.HOME);
         toast.success("card added successfully");

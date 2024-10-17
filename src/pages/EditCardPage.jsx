@@ -17,6 +17,7 @@ import atom from "../logo.svg";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import useFileUpload from "../hooks/useFileUpload";
+import { apiBaseUrl } from "../config";
 
 const EditCardPage = () => {
   const { id } = useParams();
@@ -35,9 +36,7 @@ const EditCardPage = () => {
           navigate("/react-project");
           return;
         }
-        const { data } = await axios.get(
-          "https://puppyadoptions.duckdns.org:3000/api/cards/" + id
-        );
+        const { data } = await axios.get(`${apiBaseUrl}/cards/${id}`);
 
         let newInputState = {
           ...data,
@@ -91,10 +90,7 @@ const EditCardPage = () => {
       setInputsErrorsState(joiResponse);
       if (!joiResponse) {
         await handleFileUpload();
-        await axios.put(
-          "https://puppyadoptions.duckdns.org:3000/api/cards/" + id,
-          inputState
-        );
+        await axios.put(`${apiBaseUrl}/cards/${id}`, inputState);
         URL.revokeObjectURL(preview);
         toast.success("Card Edited Successfully");
         navigate(ROUTES.HOME);

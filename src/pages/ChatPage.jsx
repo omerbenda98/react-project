@@ -1,9 +1,10 @@
 import io from "socket.io-client";
 import Chat from "../components/Chat";
 import { useParams } from "react-router-dom";
+import { apiBaseUrl } from "../config";
 
 const ChatPage = () => {
-  const socket = io("https://puppyadoptions.duckdns.org:3000");
+  const socket = io(`${apiBaseUrl}`);
   const { tokenId, userId } = useParams();
 
   return (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { apiBaseUrl } from "../config";
 
 const useFileUpload = () => {
   const [file, setFile] = useState(null);
@@ -32,15 +33,11 @@ const useFileUpload = () => {
 
       // Make an axios POST request to upload the image
       try {
-        const response = await axios.post(
-          "https://puppyadoptions.duckdns.org:3000/api/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const response = await axios.post(`${apiBaseUrl}/upload`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         newImageUrl = response.data.imageUrl;
         updateInputState((prev) => ({ ...prev, imageUrl: newImageUrl }));

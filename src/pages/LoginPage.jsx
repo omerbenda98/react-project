@@ -15,6 +15,7 @@ import useLoggedIn from "../hooks/useLoggedIn";
 import useAdmin from "../hooks/useAdmin";
 import useBiz from "../hooks/useBiz";
 import { toast } from "react-toastify";
+import { apiBaseUrl } from "../config";
 
 const LoginPage = () => {
   const [inputState, setInputState] = useState({
@@ -38,7 +39,7 @@ const LoginPage = () => {
       }
 
       const { data } = await axios.post(
-        "https://puppyadoptions.duckdns.org:3000/api/users/login",
+        `${apiBaseUrl}/users/login`,
         inputState
       );
       localStorage.setItem("token", data.token);

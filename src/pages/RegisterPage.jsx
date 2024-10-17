@@ -16,7 +16,7 @@ import ROUTES from "../routes/ROUTES";
 import useFileUpload from "../hooks/useFileUpload";
 import { styled } from "@mui/material/styles";
 import UploadIcon from "@mui/icons-material/Upload";
-import Avatar from "@mui/material/Avatar";
+import { apiBaseUrl } from "../config";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -31,13 +31,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   marginTop: theme.spacing(3),
-}));
-
-const StyledAvatar = styled(Avatar)(({ theme }) => ({
-  width: 100,
-  height: 100,
-  marginBottom: 16,
-  border: "none",
 }));
 
 const RegisterPage = () => {
@@ -84,30 +77,29 @@ const RegisterPage = () => {
         return;
       }
       await handleFileUpload();
-      await axios.post(
-        "https://puppyadoptions.duckdns.org:3000/api/users/register",
-        {
-          firstName: inputState.firstName,
-          middleName: inputState.middleName,
-          lastName: inputState.lastName,
-          phone: inputState.phone,
-          email: inputState.email,
-          password: inputState.password,
-          state: inputState.state,
-          country: inputState.country,
-          city: inputState.city,
-          imageUrl: inputState.imageUrl,
-          street: inputState.street,
-          houseNumber: inputState.houseNumber,
-          zipCode: inputState.zipCode,
-          biz: inputState.biz,
-        }
-      );
+      console.log(apiBaseUrl);
+      await axios.post(`${apiBaseUrl}/users/register`, {
+        firstName: inputState.firstName,
+        middleName: inputState.middleName,
+        lastName: inputState.lastName,
+        phone: inputState.phone,
+        email: inputState.email,
+        password: inputState.password,
+        state: inputState.state,
+        country: inputState.country,
+        city: inputState.city,
+        imageUrl: inputState.imageUrl,
+        street: inputState.street,
+        houseNumber: inputState.houseNumber,
+        zipCode: inputState.zipCode,
+        biz: inputState.biz,
+      });
 
       if (!joiResponse) {
         navigate(ROUTES.LOGIN);
       }
     } catch (err) {
+      console.log(err);
       console.log("error from axios", err.response.data);
     }
   };
@@ -175,7 +167,15 @@ const RegisterPage = () => {
             }}
           />
         ) : (
-          <StyledAvatar />
+          <div
+            style={{
+              width: 100,
+              height: 100,
+              borderRadius: "50%",
+              marginBottom: 16,
+              backgroundColor: "#ccc", // Add a background color to make it visible
+            }}
+          />
         )}
         <Typography component="h1" variant="h4" gutterBottom>
           Sign up

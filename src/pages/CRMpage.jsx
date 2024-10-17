@@ -12,6 +12,7 @@ import axios from "axios";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Loader from "../components/Loader";
+import { apiBaseUrl } from "../config";
 
 const CRMPage = () => {
   const [allUsers, setAllUsers] = useState(null);
@@ -19,7 +20,7 @@ const CRMPage = () => {
 
   useEffect(() => {
     axios
-      .get("https://puppyadoptions.duckdns.org:3000/api/users/getAllUsers")
+      .get(`${apiBaseUrl}/users/getAllUsers`)
       .then((response) => {
         setAllUsers(response.data.users);
       })
@@ -33,10 +34,7 @@ const CRMPage = () => {
     try {
       delete user._id;
       delete user.isAdmin;
-      await axios.put(
-        `https://puppyadoptions.duckdns.org:3000/api/users/userInfo/${userId}`,
-        user
-      );
+      await axios.put(`${apiBaseUrl}/users/userInfo/${userId}`, user);
       toast.success("user updated");
     } catch (err) {
       console.log("err", err);
@@ -45,7 +43,7 @@ const CRMPage = () => {
   };
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`users/deleteUser/${userId}`);
+      await axios.delete(`${apiBaseUrl}/users/deleteUser/${userId}`);
       setAllUsers((prevUsers) =>
         prevUsers.filter((user) => user._id !== userId)
       );
