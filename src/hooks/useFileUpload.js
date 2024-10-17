@@ -33,7 +33,7 @@ const useFileUpload = () => {
       // Make an axios POST request to upload the image
       try {
         const response = await axios.post(
-          "http://puppyadoptions.duckdns.org:3000/api/upload",
+          "https://puppyadoptions.duckdns.org:3000/api/upload",
           formData,
           {
             headers: {

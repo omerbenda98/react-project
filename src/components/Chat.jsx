@@ -16,7 +16,7 @@ function Chat({ socket, userID, otherUserID }) {
     const fetchChatHistory = async () => {
       try {
         const response = await axios.get(
-          "http://puppyadoptions.duckdns.org:3000/api/chats/history",
+          "https://puppyadoptions.duckdns.org:3000/api/chats/history",
           {
             params: {
               roomID: roomID,

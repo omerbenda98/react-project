@@ -60,7 +60,7 @@ const ProfilePage = () => {
       }
 
       const { data } = await axios.put(
-        "http://puppyadoptions.duckdns.org:3000/api/users/userInfo",
+        "https://puppyadoptions.duckdns.org:3000/api/users/userInfo",
         profileData
       );
 
@@ -85,7 +85,7 @@ const ProfilePage = () => {
     const fetchProfile = async () => {
       try {
         const { data } = await axios.get(
-          "http://puppyadoptions.duckdns.org:3000/api/users/userInfo"
+          "https://puppyadoptions.duckdns.org:3000/api/users/userInfo"
         );
         delete data._id;
         delete data.isAdmin;

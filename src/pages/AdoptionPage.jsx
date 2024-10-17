@@ -13,7 +13,7 @@ const AdoptionPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://puppyadoptions.duckdns.org:3000/api/cards/cards")
+      .get("https://puppyadoptions.duckdns.org:3000/api/cards/cards")
       .then(({ data }) => {
         setCardsArr(data);
       })

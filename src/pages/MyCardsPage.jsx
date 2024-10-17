@@ -20,7 +20,7 @@ const MyCardsPage = () => {
     (async () => {
       try {
         const { data } = await axios.get(
-          "http://puppyadoptions.duckdns.org:3000/api/cards/my-cards"
+          "https://puppyadoptions.duckdns.org:3000/api/cards/my-cards"
         );
         setUserData(data);
       } catch (err) {

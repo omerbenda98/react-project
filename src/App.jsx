@@ -58,7 +58,7 @@ function App() {
       }
 
       axios
-        .get("http://puppyadoptions.duckdns.org:3000/api/validate-token", {
+        .get("https://puppyadoptions.duckdns.org:3000/api/validate-token", {
           headers: {
             authorization: `Bearer ${token}`,
           },

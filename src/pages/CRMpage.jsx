@@ -19,7 +19,7 @@ const CRMPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://puppyadoptions.duckdns.org:3000/api/users/getAllUsers")
+      .get("https://puppyadoptions.duckdns.org:3000/api/users/getAllUsers")
       .then((response) => {
         setAllUsers(response.data.users);
       })
@@ -34,7 +34,7 @@ const CRMPage = () => {
       delete user._id;
       delete user.isAdmin;
       await axios.put(
-        `http://puppyadoptions.duckdns.org:3000/api/users/userInfo/${userId}`,
+        `https://puppyadoptions.duckdns.org:3000/api/users/userInfo/${userId}`,
         user
       );
       toast.success("user updated");

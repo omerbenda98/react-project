@@ -31,13 +31,13 @@ function Sidebar() {
     const fetchActiveChats = async () => {
       try {
         const userInfoResponse = await axios.get(
-          `http://puppyadoptions.duckdns.org:3000/api/users/userInfo`
+          `https://puppyadoptions.duckdns.org:3000/api/users/userInfo`
         );
         const userID = userInfoResponse.data._id;
         setUserInfo(userInfoResponse.data);
 
         const response = await axios.get(
-          "http://puppyadoptions.duckdns.org:3000/api/chats/activeChats",
+          "https://puppyadoptions.duckdns.org:3000/api/chats/activeChats",
           {
             params: { userID },
           }
@@ -55,7 +55,7 @@ function Sidebar() {
   const handleListItemClick = (chat) => {
     setIsOpen(false);
     navigate(
-      `http://puppyadoptions.duckdns.org:3000/api/chats/${chat.otherUserID}/${userInfo._id}`
+      `https://puppyadoptions.duckdns.org:3000/api/chats/${chat.otherUserID}/${userInfo._id}`
     );
   };
 

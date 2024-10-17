@@ -51,7 +51,7 @@ const AdoptionCard = ({
   const handleDeleteBtnClick = async (id) => {
     try {
       await axios.delete(
-        "http://puppyadoptions.duckdns.org:3000/api/cards/" + id
+        "https://puppyadoptions.duckdns.org:3000/api/cards/" + id
       );
       onDelete(id);
       toast.success("Card Deleted");

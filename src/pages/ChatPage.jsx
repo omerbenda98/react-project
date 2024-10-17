@@ -3,7 +3,7 @@ import Chat from "../components/Chat";
 import { useParams } from "react-router-dom";
 
 const ChatPage = () => {
-  const socket = io("http://puppyadoptions.duckdns.org:3000");
+  const socket = io("https://puppyadoptions.duckdns.org:3000");
   const { tokenId, userId } = useParams();
 
   return (

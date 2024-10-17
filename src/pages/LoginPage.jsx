@@ -38,7 +38,7 @@ const LoginPage = () => {
       }
 
       const { data } = await axios.post(
-        "http://puppyadoptions.duckdns.org:3000/api/users/login",
+        "https://puppyadoptions.duckdns.org:3000/api/users/login",
         inputState
       );
       localStorage.setItem("token", data.token);

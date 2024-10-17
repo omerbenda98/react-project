@@ -66,7 +66,7 @@ const CreateCardPage = () => {
         inputState.imageUrl = await handleFileUpload();
 
         await axios.post(
-          "http://puppyadoptions.duckdns.org:3000/api/users/cards",
+          "https://puppyadoptions.duckdns.org:3000/api/users/cards",
           inputState
         );
 
