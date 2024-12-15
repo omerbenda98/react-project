@@ -20,11 +20,11 @@ jobs:
         node-version: '20'
 
     - name: Install Frontend Dependencies
-      working-directory: ./frontend
+      working-directory: .
       run: npm ci
 
     - name: Run Frontend Tests
-      working-directory: ./frontend
+      working-directory: .
       run: npm test
 
     # Docker Build and Push
