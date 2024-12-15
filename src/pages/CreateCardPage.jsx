@@ -66,7 +66,7 @@ const CreateCardPage = () => {
       if (!joiResponse) {
         inputState.imageUrl = await handleFileUpload();
 
-        await axios.post(`${apiBaseUrl}/users/cards`, inputState);
+        await axios.post(`${apiBaseUrl}/cards`, inputState);
 
         navigate(ROUTES.HOME);
         toast.success("card added successfully");

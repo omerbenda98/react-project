@@ -1,5 +1,5 @@
-import { IconButton, Tooltip } from "@mui/material";
-import { Fragment } from "react";
+import React, { useState } from "react";
+import { IconButton, Tooltip, Button, Dialog } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import "./components_css/AdoptionCard.css";
 import propTypes from "prop-types";
 import { apiBaseUrl } from "../config";
+import AdoptionForm from "./AdoptionForm";
+import jwt_decode from "jwt-decode";
 
 const AdoptionCard = ({
   name,
@@ -24,6 +26,7 @@ const AdoptionCard = ({
   tokenId,
   onDelete,
 }) => {
+  const [openForm, setOpenForm] = useState(false);
   const isAdmin = useSelector((bigPie) => bigPie.authSlice.isAdmin);
   const isBiz = useSelector((bigPie) => bigPie.authSlice.isBiz);
   const isLoggedIn = useSelector((bigPie) => bigPie.authSlice.isLoggedIn);
@@ -38,11 +41,7 @@ const AdoptionCard = ({
   };
 
   const cardOwnerLayout = () => {
-    if (userId === tokenId) {
-      return true;
-    } else {
-      return false;
-    }
+    return userId === tokenId;
   };
 
   const handleEditBtnClick = () => {
@@ -57,6 +56,49 @@ const AdoptionCard = ({
     } catch (err) {
       toast.error("Error, can delete card");
       console.log("error when deleting", err.response.data);
+    }
+  };
+
+  const handleFormSubmit = async (formData) => {
+    try {
+      // Get the current user's ID from localStorage
+      const token = localStorage.getItem("token");
+      const payload = jwt_decode(token);
+      const currentUserId = payload._id;
+
+      // Prepare the card data object
+      const cardData = {
+        name, // from props
+        breed, // from props
+        age, // from props
+        imgUrl, // from props
+      };
+
+      // Prepare the request body
+      const requestBody = {
+        formData: {
+          ...formData,
+          userId: currentUserId, // Add the current user's ID to formData
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+        },
+        cardOwnerId: userId, // from props (original owner's ID)
+        cardId: id, // from props (the dog/card ID)
+        cardData: cardData, // the card information
+      };
+
+      const response = await axios.post(
+        `${apiBaseUrl}/users/submit-adoption`,
+        requestBody
+      );
+
+      setOpenForm(false);
+      toast.success("Adoption application submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting adoption application:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to submit adoption application"
+      );
     }
   };
 
@@ -93,23 +135,49 @@ const AdoptionCard = ({
           </Tooltip>
         )}
         {cardOwnerLayout() && (
-          <Fragment>
-            <Tooltip title="Edit">
-              <IconButton
-                onClick={handleEditBtnClick}
-                style={{ color: "lightgray" }}
-              >
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
-          </Fragment>
+          <Tooltip title="Edit">
+            <IconButton
+              onClick={handleEditBtnClick}
+              style={{ color: "lightgray" }}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
         )}
       </div>
       {isLoggedIn ? (
         userId !== tokenId ? (
-          <button onClick={handleAdoptClick} className="adoptBtn">
-            ADOPT!
-          </button>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "10px",
+              marginTop: "1rem",
+            }}
+          >
+            <button onClick={handleAdoptClick} className="adoptBtn">
+              ADOPT!
+            </button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenForm(true)}
+              fullWidth
+              sx={{
+                maxWidth: "200px", // Limit the width of the button
+                mt: 1,
+              }}
+            >
+              Submit Adoption Form
+            </Button>
+            <Dialog open={openForm} onClose={() => setOpenForm(false)}>
+              <AdoptionForm
+                onSubmit={handleFormSubmit}
+                onCancel={() => setOpenForm(false)}
+              />
+            </Dialog>
+          </div>
         ) : null
       ) : (
         <p>Must Be Registered To Adopt!</p>

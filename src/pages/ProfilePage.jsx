@@ -19,6 +19,7 @@ import useAdmin from "../hooks/useAdmin";
 import useBiz from "../hooks/useBiz";
 import "./pages_css/ProfilePage.css";
 import { apiBaseUrl } from "../config";
+import Notifications from "../components/Notifications";
 
 const ProfilePage = () => {
   const [inputState, setInputState] = useState({});
@@ -127,6 +128,7 @@ const ProfilePage = () => {
       biz: ev.target.checked,
     }));
   };
+
   const handleResetClick = (ev) => {
     setInputState({
       firstName: "",
@@ -417,59 +419,199 @@ const ProfilePage = () => {
         ) : (
           <Box
             sx={{
-              marginTop: 8,
               display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              width: "100%",
+              gap: 4,
+              p: 4,
+              minHeight: "calc(100vh - 64px)",
             }}
           >
-            <div>
-              {!userInfo.imageUrl ? (
-                <UserAvatar />
-              ) : (
-                <img
-                  src={userInfo.imageUrl}
-                  alt={`${userInfo.firstName} ${userInfo.lastName}`}
-                  className="user-img"
-                />
-              )}
-            </div>
-            <Typography component="h1" variant="h5">
-              Profile
-            </Typography>
-            <Box sx={{ p: 3, mt: 3, maxWidth: 400 }}>
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle1" fontWeight="bold">
-                  Personal Information
+            <Box
+              sx={{
+                flex: "0 0 400px",
+                backgroundColor: "black",
+                borderRadius: "12px",
+                p: 3,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                height: "fit-content",
+              }}
+            >
+              <Box sx={{ textAlign: "center", mb: 3 }}>
+                {!userInfo.imageUrl ? (
+                  <UserAvatar
+                    sx={{ width: 120, height: 120, margin: "0 auto" }}
+                  />
+                ) : (
+                  <Box
+                    component="img"
+                    src={userInfo.imageUrl}
+                    alt={`${userInfo.firstName} ${userInfo.lastName}`}
+                    sx={{
+                      width: 120,
+                      height: 120,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      margin: "0 auto",
+                    }}
+                  />
+                )}
+                <Typography variant="h5" sx={{ mt: 2, fontWeight: "500" }}>
+                  {inputState.firstName} {inputState.lastName}
                 </Typography>
-                <Typography>
-                  Name: {inputState.firstName} {inputState.lastName}
+                <Typography color="text.secondary">
+                  {inputState.email}
                 </Typography>
-                <Typography>Email: {inputState.email}</Typography>
               </Box>
+
               <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle1" fontWeight="bold">
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    fontWeight: "600",
+                    color: "primary.main",
+                    mb: 2,
+                    borderBottom: "2px solid",
+                    pb: 1,
+                  }}
+                >
                   Account Information
                 </Typography>
-
-                <Typography>
+                <Typography component="div" sx={{ mb: 1 }}>
                   Business Account: {inputState.biz ? "Yes" : "No"}
                 </Typography>
               </Box>
+
               <Box sx={{ mb: 3 }}>
-                <Typography variant="subtitle1" fontWeight="bold">
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    fontWeight: "600",
+                    color: "primary.main",
+                    mb: 2,
+                    borderBottom: "2px solid",
+                    pb: 1,
+                  }}
+                >
                   Address Information
                 </Typography>
-                <Typography>Country: {inputState.country}</Typography>
-                <Typography>State: {inputState.state}</Typography>
-                <Typography>City: {inputState.city}</Typography>
-                <Typography>Street: {inputState.street}</Typography>
-                <Typography>House Number: {inputState.houseNumber}</Typography>
-                <Typography>Zip Code: {inputState.zipCode}</Typography>
+                <Box sx={{ display: "grid", gap: 1 }}>
+                  <Typography component="div">
+                    Country: {inputState.country}
+                  </Typography>
+                  <Typography component="div">
+                    State: {inputState.state}
+                  </Typography>
+                  <Typography component="div">
+                    City: {inputState.city}
+                  </Typography>
+                  <Typography component="div">
+                    Street: {inputState.street}
+                  </Typography>
+                  <Typography component="div">
+                    House Number: {inputState.houseNumber}
+                  </Typography>
+                  <Typography component="div">
+                    Zip Code: {inputState.zipCode}
+                  </Typography>
+                </Box>
               </Box>
-              <Button variant="contained" onClick={handleEditProfile}>
-                Edit
+
+              <Button
+                variant="contained"
+                onClick={handleEditProfile}
+                fullWidth
+                sx={{ mt: 2 }}
+              >
+                Edit Profile
               </Button>
+            </Box>
+
+            <Box
+              sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 3 }}
+            >
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "12px",
+                  p: 3,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    mb: 2,
+                    fontWeight: "600",
+                    color: "primary.main",
+                  }}
+                >
+                  Notifications
+                </Typography>
+                <Box
+                  sx={{
+                    maxHeight: "300px",
+                    overflowY: "auto",
+                    "&::-webkit-scrollbar": {
+                      width: "8px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                      background: "#f1f1f1",
+                      borderRadius: "4px",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      background: "#888",
+                      borderRadius: "4px",
+                      "&:hover": {
+                        background: "#555",
+                      },
+                    },
+                  }}
+                >
+                  <Notifications />
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "12px",
+                  p: 3,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    mb: 2,
+                    fontWeight: "600",
+                    color: "primary.main",
+                  }}
+                >
+                  Requests Sent
+                </Typography>
+                <Box
+                  sx={{
+                    maxHeight: "300px",
+                    overflowY: "auto",
+                    "&::-webkit-scrollbar": {
+                      width: "8px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                      background: "#f1f1f1",
+                      borderRadius: "4px",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      background: "#888",
+                      borderRadius: "4px",
+                      "&:hover": {
+                        background: "#555",
+                      },
+                    },
+                  }}
+                >
+                  <Notifications requestsOnly />
+                </Box>
+              </Box>
             </Box>
           </Box>
         )}

@@ -11,6 +11,7 @@ import { apiBaseUrl } from "../config";
 
 const AdoptionPage = () => {
   const [cardsArr, setCardsArr] = useState(null);
+  console.log(apiBaseUrl);
 
   useEffect(() => {
     axios

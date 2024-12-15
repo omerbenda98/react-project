@@ -19,6 +19,7 @@ import useAdmin from "./hooks/useAdmin";
 import useBiz from "./hooks/useBiz";
 import axios from "axios";
 import { apiBaseUrl } from "../src/config";
+// import { trackVisit } from "../src/trackVisit";
 
 const light = {
   palette: {
@@ -42,6 +43,7 @@ function App() {
   useEffect(() => {
     setAdmin(isAdmin());
     setBiz(isBiz());
+    // trackVisit();
     loggedIn();
   }, []);
 
