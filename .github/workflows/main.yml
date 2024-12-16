@@ -52,18 +52,6 @@ jobs:
           token: ${{ secrets.K8S_REPO_TOKEN }}
           path: k8s-repo
 
-      - name: Debug directory structure
-        run: |
-          echo "Workspace contents:"
-          ls -la
-          echo "\nk8s-repo contents:"
-          cd k8s-repo
-          ls -la
-          echo "\nDevelopment folder contents:"
-          ls -la development || echo "development folder not found"
-          echo "\nProduction folder contents:"
-          ls -la production || echo "production folder not found"
-
       - name: Update Kubernetes deployment
         run: |
           cd k8s-repo
