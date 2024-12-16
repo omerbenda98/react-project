@@ -52,17 +52,29 @@ jobs:
           token: ${{ secrets.K8S_REPO_TOKEN }}
           path: k8s-repo
 
-      - name: Update Kubernetes deployment
-        run: |
-          cd k8s-repo
-          sed -i 's|image: omerbenda98/puppy-adoption-frontend:.*|image: omerbenda98/puppy-adoption-frontend:${{ github.sha }}|' development/frontend/deployment.yaml
-          sed -i 's|image: omerbenda98/puppy-adoption-frontend:.*|image: omerbenda98/puppy-adoption-frontend:${{ github.sha }}|' production/frontend/deployment.yaml
+          - name: Debug directory structure
+          run: |
+            echo "Workspace contents:"
+            ls -la
+            echo "\nk8s-repo contents:"
+            cd k8s-repo
+            ls -la
+            echo "\nDevelopment folder contents:"
+            ls -la development || echo "development folder not found"
+            echo "\nProduction folder contents:"
+            ls -la production || echo "production folder not found"
+  
+          - name: Update Kubernetes deployment
+          run: |
+            cd k8s-repo
+            sed -i 's|image: omerbenda98/puppy-adoption-frontend:.*|image: omerbenda98/puppy-adoption-frontend:${{ github.sha }}|' development/frontend/deployment.yaml
+            sed -i 's|image: omerbenda98/puppy-adoption-frontend:.*|image: omerbenda98/puppy-adoption-frontend:${{ github.sha }}|' production/frontend/deployment.yaml
 
       - name: Commit updated manifests
         run: |
           cd k8s-repo
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'actions@github.com'
-          git add main.yaml
+          git add development/frontend/deployment.yaml production/frontend/deployment.yaml
           git commit -m "Update frontend deployment image to ${{ github.sha }}"
           git push
