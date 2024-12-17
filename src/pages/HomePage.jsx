@@ -158,7 +158,7 @@ const HomePage = () => {
             }}
           >
             <Typography className="neon" variant="h2">
-              Welcome to Paws & Hearts!!!!!!!!!!
+              Welcome to Paws & Hearts!
             </Typography>
             <Typography
               variant="h5"
@@ -166,7 +166,7 @@ const HomePage = () => {
               className="neon"
               sx={{ mt: 2, mb: 2, color: "white" }}
             >
-              Explore and discover different dog breeds
+              Explore and discover different dog breeds!!!
             </Typography>
             <Typography
               variant="h5"
