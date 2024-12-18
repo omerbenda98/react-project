@@ -28,6 +28,11 @@ pipeline {
                     docker push ${DOCKER_IMAGE}:\${BUILD_NUMBER}
                 """
             }
+            post {
+                always {
+                    sh 'docker logout'
+                }
+            }
         }
 
         stage('Update K8s Manifests') {
@@ -47,12 +52,6 @@ pipeline {
                     git push
                 """
             }
-        }
-    }
-
-    post {
-        always {
-            sh 'docker logout'
         }
     }
 }
