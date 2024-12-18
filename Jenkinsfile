@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    options {
+        skipDefaultCheckout(true)  // Add this line
+    }
     tools {
         nodejs 'nodejs'
     }
