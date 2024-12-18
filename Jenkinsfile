@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJS 20'
+    }
+
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         GITHUB_TOKEN = credentials('github-token')
@@ -52,7 +56,9 @@ pipeline {
 
     post {
         always {
-            sh 'docker logout'
+            node {  // Added node block here
+                sh 'docker logout'
+            }
         }
     }
 }
