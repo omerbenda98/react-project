@@ -3,11 +3,6 @@ pipeline {
     options {
         skipDefaultCheckout(true)
     }
-    triggers {
-        triggerRemotely {
-            allowRemoteTriggering(true)
-        }
-    }
     tools {
         nodejs 'nodejs'
     }
