@@ -3,6 +3,11 @@ pipeline {
     options {
         skipDefaultCheckout(true)
     }
+    triggers {
+        triggerRemotely {
+            allowRemoteTriggering(true)
+        }
+    }
     tools {
         nodejs 'nodejs'
     }
@@ -10,24 +15,21 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         GITHUB_CREDENTIALS = credentials('github-credentials')
         DOCKER_IMAGE = 'omerbenda98/puppy-adoption-frontend'
+        GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
     }
     stages {
-        stage('Install Dependencies') {
+        stage('Checkout') {
             steps {
-                sh 'npm ci'
+                git branch: 'main', url: 'https://github.com/omerbenda98/puppy-adoption-frontend.git'
             }
         }
-        stage('Run Tests') {
-            steps {
-                sh 'npm test'
-            }
-        }
+        
         stage('Build and Push Docker Image') {
             steps {
                 sh """
                     echo \$DOCKERHUB_CREDENTIALS_PSW | docker login -u \$DOCKERHUB_CREDENTIALS_USR --password-stdin
-                    docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} .
-                    docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}
+                    docker build -t ${DOCKER_IMAGE}:${GIT_COMMIT} .
+                    docker push ${DOCKER_IMAGE}:${GIT_COMMIT}
                 """
             }
             post {
@@ -45,12 +47,11 @@ pipeline {
                     git clone https://\$GITHUB_CREDENTIALS_USR:\$GITHUB_CREDENTIALS_PSW@github.com/omerbenda98/puppy-adoption-k8s.git k8s-repo
                     cd k8s-repo
                     
-                    # Using double quotes to allow variable expansion
-                    sed -i "s|image: ${DOCKER_IMAGE}:.*|image: ${DOCKER_IMAGE}:${BUILD_NUMBER}|" development/frontend/deployment.yaml
-                    sed -i "s|image: ${DOCKER_IMAGE}:.*|image: ${DOCKER_IMAGE}:${BUILD_NUMBER}|" production/frontend/deployment.yaml
+                    sed -i "s|image: ${DOCKER_IMAGE}:.*|image: ${DOCKER_IMAGE}:${GIT_COMMIT}|" development/frontend/deployment.yaml
+                    sed -i "s|image: ${DOCKER_IMAGE}:.*|image: ${DOCKER_IMAGE}:${GIT_COMMIT}|" production/frontend/deployment.yaml
                     
                     git add development/frontend/deployment.yaml production/frontend/deployment.yaml
-                    git commit -m "Update frontend deployment image to ${BUILD_NUMBER}"
+                    git commit -m "Update frontend deployment image to ${GIT_COMMIT}"
                     git push
                 """
             }
