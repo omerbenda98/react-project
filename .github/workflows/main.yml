@@ -22,10 +22,3 @@ jobs:
 
       - name: Run Frontend Tests
         run: npm test
-
-      - name: Trigger Jenkins Pipeline
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.JENKINS_API_TOKEN }}" \
-            "${{ secrets.JENKINS_URL }}/job/frontend-pipeline/build"
