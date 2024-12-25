@@ -11,7 +11,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         GITHUB_CREDENTIALS = credentials('github-credentials')
         DOCKER_IMAGE = 'omerbenda98/puppy-adoption-frontend'
-        BRANCH_NAME = params.BRANCH_NAME ?: 'staging'
+        BRANCH_NAME = "${params.BRANCH_NAME ?: 'staging'}"
     }
 
     stages {
