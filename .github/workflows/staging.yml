@@ -24,17 +24,16 @@ jobs:
         run: npm test
 
   trigger-jenkins:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref_name == 'staging'
     steps:
       - name: Debug Info
         run: |
           echo "Event name: ${{ github.event_name }}"
           echo "Branch name: ${{ github.ref_name }}"
+          echo "Testing Jenkins connection"
+          curl -v -X POST -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} http://44.207.146.138:8090/job/frontend-pipeline/build
 
       - name: Trigger Jenkins Job
         run: |
           curl -X POST \
           -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} \
-          'http://44.207.146.138:8090/job/frontend-pipeline/build'
+          http://44.207.146.138:8090/job/frontend-pipeline/build
