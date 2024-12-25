@@ -1,54 +1,35 @@
 pipeline {
     agent any
+    options {
+        skipDefaultCheckout(true)
+    }
     tools {
         nodejs 'nodejs'
     }
-
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         GITHUB_CREDENTIALS = credentials('github-credentials')
         DOCKER_IMAGE = 'omerbenda98/puppy-adoption-frontend'
         BRANCH_NAME = "${params.BRANCH_NAME ?: 'staging'}"
     }
-
     stages {
-        stage('Cleanup Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
-        stage('Configure Git') {
-            steps {
-                sh '''
-                    git config --global --add safe.directory "*"
-                    git config --global user.email "jenkins@jenkins.com"
-                    git config --global user.name "Jenkins"
-                '''
-    }
-}
         stage('Checkout') {
             steps {
-                dir("${env.WORKSPACE}") {
-                sh 'git init'
                 git url: 'https://github.com/omerbenda98/react-project.git',
-                branch: "${BRANCH_NAME}",
-                credentialsId: 'github-credentials'
+                    branch: "${BRANCH_NAME}",
+                    credentialsId: 'github-credentials'
             }
-    }
         }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm ci'
             }
         }
-
         stage('Run Tests') {
             steps {
                 sh 'npm test'
             }
         }
-
         stage('Build and Push Docker Image') {
             steps {
                 sh """
@@ -63,7 +44,6 @@ pipeline {
                 }
             }
         }
-
         stage('Update K8s Manifests') {
             steps {
                 script {
