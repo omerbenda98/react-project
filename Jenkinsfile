@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    // Remove the skipDefaultCheckout option
+
     tools {
         nodejs 'nodejs'
     }
