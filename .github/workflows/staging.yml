@@ -30,6 +30,9 @@ jobs:
     steps:
       - name: Trigger Jenkins Job
         run: |
-          curl -X POST \
+          CRUMB=$(curl -s -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} \
+          'http://44.207.146.138:8090/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
+
+          curl -X POST -H "$CRUMB" \
           -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} \
           'http://44.207.146.138:8090/job/frontend-pipeline/buildWithParameters?BRANCH_NAME=staging'
