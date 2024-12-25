@@ -18,7 +18,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/omerbenda98/react-project.git',
-                    branch: '${BRANCH_NAME}',
+                    branch: "${BRANCH_NAME}",
                     credentialsId: 'github-credentials'
             }
         }
