@@ -20,6 +20,15 @@ pipeline {
                 cleanWs()
             }
         }
+        stage('Configure Git') {
+            steps {
+                sh '''
+                    git config --global --add safe.directory "*"
+                    git config --global user.email "jenkins@jenkins.com"
+                    git config --global user.name "Jenkins"
+                '''
+    }
+}
         stage('Checkout') {
             steps {
                 dir("${env.WORKSPACE}") {
