@@ -15,6 +15,11 @@ pipeline {
     }
 
     stages {
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/omerbenda98/react-project.git',
