@@ -22,10 +22,13 @@ pipeline {
         }
         stage('Checkout') {
             steps {
+                dir("${env.WORKSPACE}") {
+                sh 'git init'
                 git url: 'https://github.com/omerbenda98/react-project.git',
-                    branch: "${BRANCH_NAME}",
-                    credentialsId: 'github-credentials'
+                branch: "${BRANCH_NAME}",
+                credentialsId: 'github-credentials'
             }
+    }
         }
 
         stage('Install Dependencies') {
