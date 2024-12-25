@@ -1,0 +1,35 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main, staging]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Frontend Dependencies
+        run: npm ci
+
+      - name: Run Frontend Tests
+        run: npm test
+
+  trigger-jenkins:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
+    steps:
+      - name: Trigger Jenkins Job
+        run: |
+          curl -X POST \
+          -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} \
+          'YOUR_JENKINS_URL/job/YOUR_PIPELINE_NAME/build'
