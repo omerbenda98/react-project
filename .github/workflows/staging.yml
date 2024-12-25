@@ -28,6 +28,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref_name == 'staging'
     steps:
+      - name: Debug Info
+        run: |
+          echo "Event name: ${{ github.event_name }}"
+          echo "Branch name: ${{ github.ref_name }}"
+
       - name: Trigger Jenkins Job
         run: |
           curl -X POST \
