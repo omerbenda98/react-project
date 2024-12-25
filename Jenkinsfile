@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    options {
-        skipDefaultCheckout(true)
-    }
+    // Remove the skipDefaultCheckout option
     tools {
         nodejs 'nodejs'
     }
@@ -15,9 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/omerbenda98/react-project.git',
-                    branch: "${BRANCH_NAME}",
-                    credentialsId: 'github-credentials'
+                checkout scm
             }
         }
         stage('Install Dependencies') {
