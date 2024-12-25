@@ -9,8 +9,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo "Starting checkout..."
-                checkout scm
+                git branch: 'staging',
+                    url: 'https://github.com/omerbenda98/react-project.git',
+                    credentialsId: 'github-credentials'
             }
         }
         
