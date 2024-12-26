@@ -10,25 +10,25 @@ pipeline {
         BRANCH_NAME = "${params.BRANCH_NAME ?: 'staging'}"
         GIT_PATH = '/usr/bin/git'
     }
-    stages {
-        stage('Git Setup') {
-            steps {
-                dir("${WORKSPACE}") {
-                    sh """
-                        # Clean workspace except . and ..
-                        rm -rf .[!.]* * || true
+    // stages {
+    //     stage('Git Setup') {
+    //         steps {
+    //             dir("${WORKSPACE}") {
+    //                 sh """
+    //                     # Clean workspace except . and ..
+    //                     rm -rf .[!.]* * || true
                         
-                        # Initialize Git
-                        ${GIT_PATH} init .
+    //                     # Initialize Git
+    //                     ${GIT_PATH} init .
                         
-                        # Add remote and fetch
-                        ${GIT_PATH} remote add origin 'https://github.com/omerbenda98/react-project.git'
-                        ${GIT_PATH} fetch origin ${BRANCH_NAME}
-                        ${GIT_PATH} checkout -b ${BRANCH_NAME} origin/${BRANCH_NAME}
-                    """
-                }
-            }
-        }
+    //                     # Add remote and fetch
+    //                     ${GIT_PATH} remote add origin 'https://github.com/omerbenda98/react-project.git'
+    //                     ${GIT_PATH} fetch origin ${BRANCH_NAME}
+    //                     ${GIT_PATH} checkout -b ${BRANCH_NAME} origin/${BRANCH_NAME}
+    //                 """
+    //             }
+    //         }
+    //     }
         
         stage('Install Dependencies') {
             steps {
