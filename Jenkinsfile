@@ -63,8 +63,8 @@ pipeline {
         stage('Update K8s Manifests') {
             steps {
                 script {
-                    def targetPath = BRANCH_NAME == 'main' ? 'main' : 'staging'
-                    def targetNamespace = BRANCH_NAME == 'main' ? 'production' : 'staging'
+                    def targetPath = 'staging'
+                    def targetNamespace = 'staging'
                     
                     echo "Updating K8s manifests for ${targetNamespace} environment..."
                     
@@ -79,8 +79,8 @@ pipeline {
                         
                         # Clone k8s repo
                         ${GIT_PATH} remote add origin https://\$GITHUB_CREDENTIALS_USR:\$GITHUB_CREDENTIALS_PSW@github.com/omerbenda98/puppy-adoption-k8s.git
-                        ${GIT_PATH} fetch origin ${BRANCH_NAME}
-                        ${GIT_PATH} checkout -b ${BRANCH_NAME} origin/${BRANCH_NAME}
+                        ${GIT_PATH} fetch origin main
+                        ${GIT_PATH} checkout -b main origin/main
                         
                         echo "Updating deployment.yaml..."
                         sed -i "s|image: ${DOCKER_IMAGE}:.*|image: ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER}|" ${targetPath}/frontend/deployment.yaml
@@ -91,7 +91,7 @@ pipeline {
                             echo "Committing and pushing changes..."
                             ${GIT_PATH} add ${targetPath}/frontend/deployment.yaml
                             ${GIT_PATH} commit -m "Update frontend image to v1.\${BUILD_NUMBER} in ${targetNamespace}"
-                            ${GIT_PATH} push origin ${BRANCH_NAME}
+                            ${GIT_PATH} push origin main
                         fi
                     """
                 }
