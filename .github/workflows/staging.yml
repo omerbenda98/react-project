@@ -32,4 +32,4 @@ jobs:
         run: |
           curl -X POST \
           -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} \
-          'http://44.207.146.138:8090/job/frontend-pipeline/build?token=frontend-pipeline-token'
+          'http://44.207.146.138:8090/job/frontend-staging-pipeline/build?token=frontend-pipeline-token'
