@@ -1,34 +1,29 @@
 pipeline {
     agent any
-    tools {
-        nodejs 'nodejs'
-    }
+    
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         GITHUB_CREDENTIALS = credentials('github-credentials')
         DOCKER_IMAGE = 'omerbenda98/puppy-adoption-frontend'
-        BRANCH_NAME = "${params.BRANCH_NAME ?: 'staging'}"
+        GIT_REPO = 'https://github.com/omerbenda98/react-project.git'
         GIT_PATH = '/usr/bin/git'
+        BRANCH_NAME = 'staging'  // Hardcoded since we're using branch-specific pipeline
     }
-    // stages {
-    //     stage('Git Setup') {
-    //         steps {
-    //             dir("${WORKSPACE}") {
-    //                 sh """
-    //                     # Clean workspace except . and ..
-    //                     rm -rf .[!.]* * || true
-                        
-    //                     # Initialize Git
-    //                     ${GIT_PATH} init .
-                        
-    //                     # Add remote and fetch
-    //                     ${GIT_PATH} remote add origin 'https://github.com/omerbenda98/react-project.git'
-    //                     ${GIT_PATH} fetch origin ${BRANCH_NAME}
-    //                     ${GIT_PATH} checkout -b ${BRANCH_NAME} origin/${BRANCH_NAME}
-    //                 """
-    //             }
-    //         }
-    //     }
+    
+    tools {
+        nodejs 'nodejs'
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Thorough cleanup and clone
+                sh """
+                    rm -rf .[!.]* ..?* * || true
+                    git clone -b ${BRANCH_NAME} ${GIT_REPO} .
+                """
+            }
+        }
         
         stage('Install Dependencies') {
             steps {
@@ -40,7 +35,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 echo "Running tests..."
-                sh 'npm test'
+                sh 'npm test -- --watchAll=false'  // Non-interactive mode for CI
             }
         }
         
@@ -49,7 +44,12 @@ pipeline {
                 echo "Building and pushing Docker image..."
                 sh """
                     echo \$DOCKERHUB_CREDENTIALS_PSW | docker login -u \$DOCKERHUB_CREDENTIALS_USR --password-stdin
-                    docker build -t ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER} .
+                    docker build \
+                        --memory=2g \
+                        --memory-swap=2g \
+                        --cpu-period=100000 \
+                        --cpu-quota=25000 \
+                        -t ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER} .
                     docker push ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER}
                 """
             }
