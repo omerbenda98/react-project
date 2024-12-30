@@ -1,46 +1,59 @@
 pipeline {
     agent any
-    options {
-        skipDefaultCheckout(true)
-    }
-    tools {
-        nodejs 'nodejs'
-    }
-
+    
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         GITHUB_CREDENTIALS = credentials('github-credentials')
         DOCKER_IMAGE = 'omerbenda98/puppy-adoption-frontend'
-        BRANCH_NAME = "${env.GIT_BRANCH.split('/').last()}"
-    }
+        GIT_REPO = 'https://github.com/omerbenda98/react-project.git'
+        GIT_PATH = '/usr/bin/git'
+        BRANCH_NAME = 'staging'  // Hardcoded since we're using branch-specific pipeline
+        REACT_APP_ENV = 'staging'
 
+    }
+    
+    tools {
+        nodejs 'nodejs'
+    }
+    
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/omerbenda98/react-project.git',
-                    branch: '${BRANCH_NAME}',
-                    credentialsId: 'github-credentials'
+                // Thorough cleanup and clone
+                sh """
+                    rm -rf .[!.]* ..?* * || true
+                    git clone -b ${BRANCH_NAME} ${GIT_REPO} .
+                """
             }
         }
-
+        
         stage('Install Dependencies') {
             steps {
+                echo "Installing Node.js dependencies..."
                 sh 'npm ci'
             }
         }
-
+        
         stage('Run Tests') {
             steps {
-                sh 'npm test'
+                echo "Running tests..."
+                sh 'npm test -- --watchAll=false'  // Non-interactive mode for CI
             }
         }
-
+        
         stage('Build and Push Docker Image') {
             steps {
+                echo "Building and pushing Docker image..."
                 sh """
                     echo \$DOCKERHUB_CREDENTIALS_PSW | docker login -u \$DOCKERHUB_CREDENTIALS_USR --password-stdin
-                    docker build -t ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER} .
-                    docker push ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER}
+                    docker build \
+                        --memory=2g \
+                        --memory-swap=2g \
+                        --cpu-period=100000 \
+                        --cpu-quota=25000 \
+                        --build-arg REACT_APP_ENV=${REACT_APP_ENV} \
+                        -t ${DOCKER_IMAGE}:staging.v1.\${BUILD_NUMBER} .
+                    docker push ${DOCKER_IMAGE}:staging.v1.\${BUILD_NUMBER}
                 """
             }
             post {
@@ -49,33 +62,54 @@ pipeline {
                 }
             }
         }
-
+        
         stage('Update K8s Manifests') {
             steps {
                 script {
-                    def targetPath = BRANCH_NAME == 'main' ? 'main' : 'staging'
-                    def targetNamespace = BRANCH_NAME == 'main' ? 'production' : 'staging'
+                    def targetPath = 'staging'
+                    def targetNamespace = 'staging'
+                    
+                    echo "Updating K8s manifests for ${targetNamespace} environment..."
                     
                     sh """
                         rm -rf k8s-repo || true
-                        git config --global user.email "jenkins@jenkins.com"
-                        git config --global user.name "Jenkins"
-                        git clone https://\$GITHUB_CREDENTIALS_USR:\$GITHUB_CREDENTIALS_PSW@github.com/omerbenda98/puppy-adoption-k8s.git k8s-repo
+                        
+                        # Initialize new Git repo for k8s
+                        ${GIT_PATH} init k8s-repo
                         cd k8s-repo
+                        ${GIT_PATH} config --local user.email "jenkins@jenkins.com"
+                        ${GIT_PATH} config --local user.name "Jenkins"
                         
-                        # Update deployment in appropriate directory
-                        sed -i "s|image: ${DOCKER_IMAGE}:.*|image: ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER}|" ${targetPath}/frontend/deployment.yaml
+                        # Clone k8s repo
+                        ${GIT_PATH} remote add origin https://\$GITHUB_CREDENTIALS_USR:\$GITHUB_CREDENTIALS_PSW@github.com/omerbenda98/puppy-adoption-k8s.git
+                        ${GIT_PATH} fetch origin main
+                        ${GIT_PATH} checkout -b main origin/main
                         
-                        if git diff --quiet; then
+                        echo "Updating deployment.yaml..."
+                        sed -i "s|image: ${DOCKER_IMAGE}:.*|image: ${DOCKER_IMAGE}:staging.v1.\${BUILD_NUMBER}|" ${targetPath}/frontend/deployment.yaml
+                        
+                        if ${GIT_PATH} diff --quiet; then
                             echo "No changes to commit"
                         else
-                            git add ${targetPath}/frontend/deployment.yaml
-                            git commit -m "Update frontend image to v1.\${BUILD_NUMBER} in ${targetNamespace}"
-                            git push origin ${BRANCH_NAME}
+                            echo "Committing and pushing changes..."
+                            ${GIT_PATH} add ${targetPath}/frontend/deployment.yaml
+                            ${GIT_PATH} commit -m "Update frontend image to staging.v1.\${BUILD_NUMBER} in ${targetNamespace}"
+                            ${GIT_PATH} push origin main
                         fi
                     """
                 }
             }
+        }
+    }
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed! Check the logs above for details.'
+        }
+        always {
+            cleanWs()
         }
     }
 }

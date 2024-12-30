@@ -16,13 +16,6 @@ pipeline {
     }
     
     stages {
-        stage('Approval') {
-            steps {
-                // Add manual approval step
-                input message: 'Approve deployment to production?'
-            }
-        }
-
         stage('Checkout') {
             steps {
                 sh """
