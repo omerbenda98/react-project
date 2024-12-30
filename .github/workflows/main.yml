@@ -2,9 +2,11 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [main]
+    branches: [staging]      # Direct pushes to staging
   pull_request:
-    branches: [main]
+    branches: [main]        # PRs from staging to main
+  push:
+    branches: [main]        # Merged PR to main
 
 jobs:
   test:
@@ -22,3 +24,27 @@ jobs:
 
       - name: Run Frontend Tests
         run: npm test
+
+  trigger-jenkins-staging:
+    needs: test
+    runs-on: ubuntu-latest
+    # Only trigger staging deployment on direct push to staging branch
+    if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
+    steps:
+      - name: Trigger Jenkins Staging Pipeline
+        run: |
+          curl -X POST \
+          -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} \
+          'http://44.207.146.138:8090/job/frontend-staging-pipeline/build?token=frontend-pipeline-token'
+
+  trigger-jenkins-production:
+    needs: test
+    runs-on: ubuntu-latest
+    # Only trigger production deployment after PR is merged to main
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Trigger Jenkins Production Pipeline
+        run: |
+          curl -X POST \
+          -u ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_TOKEN }} \
+          'http://44.207.146.138:8090/job/frontend-production-pipeline/build?token=prod-trigger-token'
