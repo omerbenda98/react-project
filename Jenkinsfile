@@ -52,8 +52,8 @@ pipeline {
                         --cpu-period=100000 \
                         --cpu-quota=25000 \
                         --build-arg REACT_APP_ENV=${REACT_APP_ENV} \
-                        -t ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER} .
-                    docker push ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER}
+                        -t ${DOCKER_IMAGE}:staging.v1.\${BUILD_NUMBER} .
+                    docker push ${DOCKER_IMAGE}:staging.v1.\${BUILD_NUMBER}
                 """
             }
             post {
@@ -86,14 +86,14 @@ pipeline {
                         ${GIT_PATH} checkout -b main origin/main
                         
                         echo "Updating deployment.yaml..."
-                        sed -i "s|image: ${DOCKER_IMAGE}:.*|image: ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER}|" ${targetPath}/frontend/deployment.yaml
+                        sed -i "s|image: ${DOCKER_IMAGE}:.*|image: ${DOCKER_IMAGE}:staging.v1.\${BUILD_NUMBER}|" ${targetPath}/frontend/deployment.yaml
                         
                         if ${GIT_PATH} diff --quiet; then
                             echo "No changes to commit"
                         else
                             echo "Committing and pushing changes..."
                             ${GIT_PATH} add ${targetPath}/frontend/deployment.yaml
-                            ${GIT_PATH} commit -m "Update frontend image to v1.\${BUILD_NUMBER} in ${targetNamespace}"
+                            ${GIT_PATH} commit -m "Update frontend image to staging.v1.\${BUILD_NUMBER} in ${targetNamespace}"
                             ${GIT_PATH} push origin main
                         fi
                     """
