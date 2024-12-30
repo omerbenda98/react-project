@@ -3,9 +3,15 @@ FROM node:18 AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
+
+ARG REACT_APP_ENV=staging
+ENV REACT_APP_ENV=${REACT_APP_ENV}
+
 COPY . .
+
 # Build the application
 RUN npm run build
+
 
 # Production stage
 FROM nginx:alpine

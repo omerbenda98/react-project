@@ -8,6 +8,8 @@ pipeline {
         GIT_REPO = 'https://github.com/omerbenda98/react-project.git'
         GIT_PATH = '/usr/bin/git'
         BRANCH_NAME = 'staging'  // Hardcoded since we're using branch-specific pipeline
+        REACT_APP_ENV = 'staging'
+
     }
     
     tools {
@@ -49,6 +51,7 @@ pipeline {
                         --memory-swap=2g \
                         --cpu-period=100000 \
                         --cpu-quota=25000 \
+                        --build-arg REACT_APP_ENV=${REACT_APP_ENV} \
                         -t ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER} .
                     docker push ${DOCKER_IMAGE}:v1.\${BUILD_NUMBER}
                 """

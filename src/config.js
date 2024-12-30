@@ -1,14 +1,21 @@
-const localApiUrl = "http://localhost:8181/api";
-const k8sApiUrl = "http://puppy-adoption.local/api";
-const prodApiUrl = "https://puppyadoptions.duckdns.org/api";
+const config = {
+  development: {
+    apiUrl: "http://localhost:8181/api",
+  },
+  staging: {
+    apiUrl: "https://puppyadoptions.duckdns.org:32223/api",
+  },
+  production: {
+    apiUrl: "https://puppyadoptions.duckdns.org/api",
+  },
+};
 
-export const apiBaseUrl = process.env.REACT_APP_API_URL // Check for Kubernetes environment
-  ? k8sApiUrl
-  : process.env.NODE_ENV === "production"
-  ? prodApiUrl
-  : localApiUrl;
+// Add these debug logs
+console.log("REACT_APP_ENV:", process.env.REACT_APP_ENV);
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("Selected environment:", environment);
+console.log("Selected apiBaseUrl:", config[environment].apiUrl);
 
-console.log(process.env);
-console.log(process.env.REACT_APP_API_URL);
-
-console.log("Selected apiBaseUrl:", apiBaseUrl);
+const environment =
+  process.env.REACT_APP_ENV || process.env.NODE_ENV || "development";
+export const apiBaseUrl = config[environment].apiUrl;
