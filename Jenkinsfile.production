@@ -1,0 +1,118 @@
+pipeline {
+    agent any
+    
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
+        GITHUB_CREDENTIALS = credentials('github-credentials')
+        DOCKER_IMAGE = 'omerbenda98/puppy-adoption-frontend'
+        GIT_REPO = 'https://github.com/omerbenda98/react-project.git'
+        GIT_PATH = '/usr/bin/git'
+        BRANCH_NAME = 'main'  // Changed to main branch
+        REACT_APP_ENV = 'production'  // Changed to production
+    }
+    
+    tools {
+        nodejs 'nodejs'
+    }
+    
+    stages {
+        stage('Approval') {
+            steps {
+                // Add manual approval step
+                input message: 'Approve deployment to production?'
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                sh """
+                    rm -rf .[!.]* ..?* * || true
+                    git clone -b ${BRANCH_NAME} ${GIT_REPO} .
+                """
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
+                echo "Installing Node.js dependencies..."
+                sh 'npm ci'
+            }
+        }
+        
+        stage('Run Tests') {
+            steps {
+                echo "Running tests..."
+                sh 'npm test -- --watchAll=false'
+            }
+        }
+        
+        stage('Build and Push Docker Image') {
+            steps {
+                echo "Building and pushing Docker image..."
+                sh """
+                    echo \$DOCKERHUB_CREDENTIALS_PSW | docker login -u \$DOCKERHUB_CREDENTIALS_USR --password-stdin
+                    docker build \
+                        --memory=2g \
+                        --memory-swap=2g \
+                        --cpu-period=100000 \
+                        --cpu-quota=25000 \
+                        --build-arg REACT_APP_ENV=${REACT_APP_ENV} \
+                        -t ${DOCKER_IMAGE}:prod.v1.\${BUILD_NUMBER} .
+                    docker push ${DOCKER_IMAGE}:prod.v1.\${BUILD_NUMBER}
+                """
+            }
+            post {
+                always {
+                    sh 'docker logout'
+                }
+            }
+        }
+        
+        stage('Update K8s Manifests') {
+            steps {
+                script {
+                    def targetPath = 'production'  // Changed to production path
+                    def targetNamespace = 'production'  // Changed to production namespace
+                    
+                    echo "Updating K8s manifests for ${targetNamespace} environment..."
+                    
+                    sh """
+                        rm -rf k8s-repo || true
+                        
+                        ${GIT_PATH} init k8s-repo
+                        cd k8s-repo
+                        ${GIT_PATH} config --local user.email "jenkins@jenkins.com"
+                        ${GIT_PATH} config --local user.name "Jenkins"
+                        
+                        ${GIT_PATH} remote add origin https://\$GITHUB_CREDENTIALS_USR:\$GITHUB_CREDENTIALS_PSW@github.com/omerbenda98/puppy-adoption-k8s.git
+                        ${GIT_PATH} fetch origin main
+                        ${GIT_PATH} checkout -b main origin/main
+                        
+                        echo "Updating deployment.yaml..."
+                        sed -i "s|image: ${DOCKER_IMAGE}:.*|image: ${DOCKER_IMAGE}:prod.v1.\${BUILD_NUMBER}|" ${targetPath}/frontend/deployment.yaml
+                        
+                        if ${GIT_PATH} diff --quiet; then
+                            echo "No changes to commit"
+                        else
+                            echo "Committing and pushing changes..."
+                            ${GIT_PATH} add ${targetPath}/frontend/deployment.yaml
+                            ${GIT_PATH} commit -m "Update frontend image to prod.v1.\${BUILD_NUMBER} in ${targetNamespace}"
+                            ${GIT_PATH} push origin main
+                        fi
+                    """
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Production deployment completed successfully!'
+        }
+        failure {
+            echo 'Production deployment failed! Check the logs above for details.'
+        }
+        always {
+            cleanWs()
+        }
+    }
+}
