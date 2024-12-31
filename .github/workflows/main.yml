@@ -2,11 +2,11 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [staging]      # Direct pushes to staging
+    branches:
+      - staging
+      - main
   pull_request:
-    branches: [main]        # PRs from staging to main
-  push:
-    branches: [main]        # Merged PR to main
+    branches: [main]
 
 jobs:
   test:
